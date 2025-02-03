@@ -18,7 +18,7 @@ alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
 
 ```
 # docker inisialization
-docker run --rm -v $(pwd):/opt -w /opt laravelsail/php82-composer:latest bash -c "composer install"
+docker run --rm -v $(pwd):/opt -w /opt laravelsail/php84-composer:latest bash -c "composer install"
 
 # run server
 ./vendor/bin/sail up -d
@@ -70,6 +70,7 @@ docker run --rm -v $(pwd):/opt -w /opt laravelsail/php82-composer:latest bash -c
 ## WebSocket
 Laravel Reverb を使うか pusher を使うかで変わってきます。
 .env の下の方に書いてありますので、適宜切り替えて使ってください
+(※ ID 〜 SECRET まで設定を書いておかないと動かないので、適当な設定を書いてあります)
 ```
 # reverb を起動
 ./vendor/bin/sail artisan reverb:start
