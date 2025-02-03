@@ -1,0 +1,26 @@
+{
+    "compilerOptions": {
+        "allowJs": true,
+        "module": "ESNext",
+        "moduleResolution": "bundler",
+        "jsx": "react-jsx",
+        "strict": false,
+        "isolatedModules": true,
+        "target": "ESNext",
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "skipLibCheck": true,
+        "noEmit": true,
+        "baseUrl": "./",
+        "paths": {
+            "@/*": ["./resources/ts/*"],
+            "ziggy-js": ["./vendor/tightenco/ziggy"],
+            "blu/*": ["_repos/npm/blu/*"]
+        }
+    },
+    "include": [
+        "resources/ts/**/*.ts",
+        "resources/ts/**/*.tsx",
+        "resources/ts/**/*.d.ts"
+    ]
+}

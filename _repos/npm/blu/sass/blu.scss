@@ -1,0 +1,23 @@
+@use "_Button";
+@use '_Table';
+@use '_Layout';
+@use '_FormView';
+@use '_Bulk';
+@use '_Modal';
+@use '_Panel';
+@use '_SpotEditor';
+@use '_GroupingSortable';
+@use '_Pagination';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.blu
+{    .view-control
+    {
+        display: flex;
+        
+    }
+}

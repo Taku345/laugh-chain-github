@@ -1,0 +1,149 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ rootNamespace }}Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
+
+// Model is used by any action
+use {{ namespacedModel }} as MainModel;
+// Save Request is used by store and update (post and put request)
+use {{ namespacedRequests }} as SaveRequest;
+
+class {{ class }} extends Controller
+{
+    protected static $perPage = 25;
+    protected static $viewDir = '{{ viewDir }}';
+    protected static $routePrefix = '{{ routePrefix }}';
+    protected static $configPrefix = '{{ configPrefix }}';
+
+    /**
+     * confirations
+     */
+    protected static function config()
+    {
+        $config = config(static::$configPrefix.'config');
+        {{ config }}
+        return $config;
+    }
+
+    protected static function indexConfig()
+    {
+        $config = config(static::$configPrefix.'index');
+        return $config;
+    }
+
+    protected static function searchConfig()
+    {
+        $config = config(static::$configPrefix.'search');
+        return $config;
+    }
+
+    protected static function formConfig()
+    {
+        $config = config(static::$configPrefix.'form');
+        return $config;
+    }
+
+    /*
+    * actions
+    */
+    public function index(Request $request)
+    {
+        if ($request->expectsJson())
+        {
+            $query = MainModel::query();
+
+            return \Blu\Query::itemsByRequest(
+                $request,
+                static::config(),
+                $query,
+                static::$perPage
+            );
+        }
+
+        return Inertia::render(static::$viewDir.'Index', [
+            'config' => static::config(),
+            'indexConfig' => static::indexConfig(),
+            'searchConfig' => static::searchConfig()
+        ]);
+    }
+
+    public function show(Request $request, MainModel $item)
+    {
+        if ($request->expectsJson())
+        {
+            return $item;
+        }
+
+        return Inertia::render(static::$viewDir.'Show', [
+            'config' => static::config(),
+            'item' => $item,
+            'formConfig' => static::formConfig(),
+        ]);
+    }
+
+    public function create()
+    {
+        return Inertia::render(static::$viewDir.'Create', [
+            'config' => static::config(),
+            'formConfig' => static::formConfig(),
+        ]);
+    }
+
+    public function edit(MainModel $item, Request $request)
+    {
+        return Inertia::render(static::$viewDir.'Edit', [
+            'config' => static::config(),
+            'item' => $item,
+            'formConfig' => static::formConfig(),
+        ]);
+    }
+
+    public function store(SaveRequest $request)
+    {
+        $result = \Blu\Save::saveTransaction($request, new MainModel, static::config(), $useDefault = true);
+
+        if (!$result)
+        {
+            return back()->withErrors('保存に失敗しました。');
+        }
+
+        return redirect()
+            ->route(static::$routePrefix.'edit', [ 'item' => $result->id ] )
+            ->with('success', '保存しました。');
+    }
+
+    public function update(SaveRequest $request, MainModel $item)
+    {
+        $result = \Blu\Save::saveTransaction($request, $item, static::config(), $useDefault = false);
+
+        if (!$result)
+        {
+            return back()->withErrors('error', '保存に失敗しました。');
+        }
+
+        return redirect()
+            ->route(static::$routePrefix.'edit', [ 'item' => $result->id ] )
+            ->with('success', '更新しました。');
+    }
+
+    public function destroy(MainModel $item)
+    {
+        if (! $item) response()->json([], 500);
+
+        $item->delete();
+
+        $url = url()->previous();
+        $name = app('router')->getRoutes()->match(app('request')->create($url))->getName();
+        if ($name == static::$routePrefix.'show' || $name == static::$routePrefix.'edit')
+        {
+            return redirect()
+                ->route(static::$routePrefix.'index')
+                ->with('success', '「id : '.$item->id.'」を削除しました。');
+        }
+
+        return back()->with('success', '「id : '.$item->id.'」を削除しました。');
+    }
+}

@@ -1,0 +1,21 @@
+const customCallbacks = (
+    config,
+    preference,
+    data,
+    setData,
+    errors,
+    fieldKey,,
+    fieldConfig,,
+    fieldData,
+    fieldErrors,
+    setFieldData,
+    name,
+) => {
+    return {
+        'sampleCallback': () => {
+            return (<div>sampleCallback</div>)
+        }
+    }
+}
+
+export default customCallbacks

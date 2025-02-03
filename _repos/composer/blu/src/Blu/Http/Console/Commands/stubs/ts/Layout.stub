@@ -1,0 +1,38 @@
+import { Link } from "@inertiajs/react";
+
+// import MenuContainer from 'blu/Laravel/Layout/ContextMenusTop'
+// import MenuContainer from 'blu/Laravel/Layout/ContextMenusSide'
+// import MenuContainer from 'blu/Laravel/Layout/DropdownMenusTop'
+// import MenuContainer from 'blu/Laravel/Layout/DropdownMenusSide'
+// import MenuContainer from 'blu/Laravel/Layout/DropdownContextMenuTop'
+// import MenuContainer from 'blu/Laravel/Layout/DropdownContextMenuSide'
+import MenuContainer from 'blu/Laravel/Layout/FlatMenus'
+
+import BaseLayout from "blu/Laravel/Layout/TopMenuLayout"
+// import BaseLayout from "blu/Laravel/Layout/SideMenuLayout"
+import { menus } from "./menu"
+
+declare var route
+
+const Layout = ({
+    auth,
+    title,
+    children,
+    className='',
+}) =>
+{
+    return (<BaseLayout
+        auth={auth}
+        title={title}
+        home={<>
+                <div>
+                    <Link href={route('dashboard')}>Home</Link>
+                </div>
+            </>}
+        menus={<MenuContainer menus={menus} />}
+        className={className}
+    >
+        {children}
+    </BaseLayout>)
+}
+export default Layout

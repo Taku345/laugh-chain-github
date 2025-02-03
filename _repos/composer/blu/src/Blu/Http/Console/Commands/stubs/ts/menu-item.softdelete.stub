@@ -1,0 +1,6 @@
+    '{{ viewName }}': {
+        '{{ viewName }}一覧': route('{{ route }}.index'),
+        '{{ viewName }}新規作成': route('{{ route }}.create'),
+        '{{ viewName }}ゴミ箱': route('{{ route }}.trash'),
+        0: route('{{ route }}.edit', {item: '*' }),
+    },

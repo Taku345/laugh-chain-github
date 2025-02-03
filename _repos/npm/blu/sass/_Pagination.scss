@@ -1,0 +1,59 @@
+
+.Pagination
+{
+	@apply my-2 flex justify-between w-full;
+    ul
+    {
+        li
+        {
+            @apply leading-none inline-block mr-1 overflow-hidden;
+
+            a,
+            > span
+            {
+                @apply border border-slate-600 rounded block px-3 py-2;
+                span
+                {
+                    display: inline-block;
+                    text-align: center;
+                    min-width: 1.4rem;
+                }
+            }
+
+            &.active a
+            {
+                @apply bg-slate-600 text-white;
+            }
+            a:hover
+            {
+                @apply bg-slate-600 text-white;
+            }
+            &.disabled a,
+            &.disabled span
+            {
+                @apply text-slate-200 border-slate-200;
+            }
+            &.dot span
+            {
+                @apply border-transparent;
+            }
+            &.prev a,
+            &.next a
+            {
+                @apply text-center;
+                min-width: 4rem;
+            }
+            &.prev > span,
+            &.next > span
+            {
+                @apply text-slate-200 border-slate-200;
+                @apply text-center;
+                min-width: 4rem;
+            }
+        }
+    }
+    span.total
+    {
+        @apply font-bold text-slate-600 text-lg;
+    }
+}

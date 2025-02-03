@@ -1,0 +1,71 @@
+.GroupingSortable
+{
+    @apply w-full flex p-4 justify-between;
+
+    .SortableParent
+    {
+        @apply w-3/5 p-1 bg-slate-100 border border-slate-300;
+        .SortableParentElement
+        {
+            .SortableChild
+            {
+                @apply w-full;
+                .SortableElement
+                {
+                    @apply border p-1 flex justify-between items-center;
+                    @apply w-auto inline-flex;
+                    div.content
+                    {
+                        @apply w-auto;
+                    }
+                }
+
+
+                &.single
+                {
+                    @apply py-2;
+                }
+            }
+        }
+    }
+
+    .SortableLibrary
+    {
+        @apply pl-2 w-2/5 p-1 bg-slate-100 ml-2 border border-slate-300;
+    }
+
+    .SortableElement
+    {
+        @apply border border-slate-600 rounded flex justify-between items-center p-1 mb-1 mr-1 bg-white;
+        button.handle-parent,
+        button.handle-child,
+        button.delete
+        {
+            @apply flex p-1 mr-0;
+            svg
+            {
+                width: 15px;
+                height: 15px;
+            }
+        }
+
+        button.handle-parent,
+        button.handle-child
+        {
+            @apply mr-1;
+        }
+        div.content
+        {
+            @apply w-full font-bold text-slate-500 text-sm;
+        }
+        > div.content
+        {
+            @apply py-1;
+        }
+        button.delete
+        {
+            @apply ml-1;
+        }
+    }
+
+}

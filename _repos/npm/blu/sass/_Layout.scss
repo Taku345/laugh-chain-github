@@ -1,0 +1,362 @@
+.TopMenuLayout,
+.SideMenuLayout
+{
+
+    div.auth
+    {
+        @apply text-white;
+        div.content
+        {
+            @apply bg-white rounded shadow-lg p-4;
+            left: initial !important;
+            right: 0 !important;
+            div.children
+            {
+                @apply flex flex-col;
+                a,
+                button
+                {
+                    display: block;
+                    min-width: 120px;
+                    text-align: left;
+                }
+            }
+        }
+    }
+
+    div.auth,
+    header.layout-header nav.menus,
+    aside nav.menus
+    {
+        a, button
+        {
+            @apply block text-slate-600;
+            &:hover
+            {
+                @apply underline;
+            }
+        }
+    }
+
+
+    main
+    {
+        > section
+        {
+            @apply my-8 bg-white rounded-lg overflow-hidden;
+            > header
+            {
+                @apply w-full px-4 py-4 font-bold text-lg shadow-sm leading-none flex items-center justify-between;
+            }
+            > div.content
+            {
+                @apply p-4 overflow-auto;
+            }
+            > footer
+            {
+                @apply w-full px-4 py-4 font-bold text-lg border-t leading-none flex items-center justify-end;
+            }
+        }
+
+    }
+}
+
+// background
+.TopMenuLayout:before,
+.SideMenuLayout
+{
+    @apply bg-gray-100;
+}
+
+
+.TopMenuLayout
+{
+    // default size
+    width: 1200px;
+    max-width: calc(100% - 2rem);
+    margin: 0 auto;
+
+     // for background
+    &:before
+    {
+        content: '';
+        @apply min-h-screen fixed inset-0 z-0;
+    }
+
+
+    header.layout-header
+    {
+        div.top
+        {
+            width: calc(100vw);
+            padding-left: calc(50vw - 50%);
+            padding-right: calc(50vw - 50%);
+            margin-left: calc(50% - 50vw);
+            @apply text-white bg-slate-600 flex justify-between py-4;
+            div.home
+            {
+                @apply text-white;
+                a
+                {
+                    @apply text-white;
+                }
+            }
+        }
+        div.auth
+        {
+            div.content
+            {
+                @apply bg-white rounded shadow-lg p-4;
+                left: initial !important;
+                right: 0 !important;
+                div.children
+                {
+                    @apply flex flex-col;
+                    a,
+                    button
+                    {
+                        display: block;
+                        min-width: 120px;
+                        text-align: left;
+                    }
+                }
+            }
+        }
+
+        nav.menus
+        {
+            > ul.DropdownMenus,
+            > ul.FlatMenus,
+            div.ContextMenus ul.top-menus,
+            div.ContextMenus div.bottom-menus ul.child-1
+            {
+                width: 100vw;
+                padding-left: calc(50vw - 50%);
+                padding-right: calc(50vw - 50%);
+                margin-left: calc(50% - 50vw);
+                @apply shadow bg-slate-100;
+                @apply flex flex-wrap pt-4 pb-2;
+                > li
+                {
+                    @apply pr-6 mb-2;
+                    min-width: 4rem;
+                }
+            }
+
+            ul.DropdownMenus
+            {
+                > li
+                {
+                    div.label
+                    {
+                        @apply cursor-pointer;
+                    }
+                    ul
+                    {
+                        @apply bg-white shadow-xl rounded;
+                        min-width: 10rem;
+                        li
+                        {
+                            @apply px-4 py-2;
+                        }
+                    }
+                }
+                svg
+                {
+                    transform: translateY(-2px);
+                }
+            }
+
+            > ul.FlatMenus
+            {
+                > li
+                {
+                    ul
+                    {
+                        li
+                        {
+                            @apply pl-2 py-1;
+                            a:before
+                            {
+                                content: '-';
+                                margin-right: 0.25rem;
+                                display: inline;
+                            }
+                        }
+                    }
+                }
+            }
+            div.ContextMenus
+            {
+                div.bottom-menus
+                {
+                    ul.child-1
+                    {
+                        @apply shadow bg-white;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.SideMenuLayout
+{
+    // background
+    @apply min-h-screen;
+
+    header.layout-header
+    {
+        @apply z-0 bg-slate-600 flex justify-between flex-wrap items-center pr-4;
+        h1
+        {
+            @apply relative px-4 h-16 flex justify-start items-center text-xl font-bold text-white;
+        }
+    }
+
+    aside
+    {
+        @apply fixed top-0 left-0 bg-white min-h-screen border-l border-gray-100 p-4 box-border;
+        z-index: 1;
+        height: 100vh;
+        overflow: auto;
+        div.home
+        {
+            @apply max-h-48 overflow-auto mb-8 p-2 border rounded-md bg-slate-600;
+            a
+            {
+                @apply block text-white;
+                &:hover
+                {
+                    @apply underline;
+                }
+            }
+        }
+
+        nav.menus
+        {
+            > ul.DropdownMenus,
+            > ul.FlatMenus,
+            > ul.FlatMenus ul.child-1,
+            div.ContextMenus ul.top-menus,
+            div.ContextMenus ul.child-1
+            {
+                @apply flex flex-col;
+                li
+                {
+                    @apply my-2 w-full;
+                    min-width: 4rem;
+                }
+            }
+
+            ul.DropdownMenus
+            {
+                li
+                {
+                    div.Dropdown
+                    {
+                        div.label
+                        {
+                            @apply cursor-pointer relative pr-6 cursor-pointer;
+                            &:hover
+                            {
+                                text-decoration: underline;
+                            }
+                            svg
+                            {
+                                @apply absolute top-0 bottom-0 right-0 my-auto;
+                            }
+                        }
+                    }
+                }
+            }
+            > ul.DropdownMenus
+            {
+                li
+                {
+                    ul
+                    {
+                        @apply px-4 py-2 bg-white shadow-xl rounded;
+                        min-width: 10rem;
+                    }
+                }
+            }
+
+
+            > ul.FlatMenus,
+            div.ContextMenus ul.top-menus
+            {
+                li
+                {
+                    span.label
+                    {
+                        @apply relative font-bold text-slate-400 flex justify-between items-center mb-2;
+                        display: grid;
+                        grid-template-columns: auto 1fr;
+                        column-gap: 10px;
+                        &:after
+                        {
+                            content: '';
+                            @apply w-1/2 relative border-b-2 border-slate-200;
+                            width: 100%;
+                            display: block;
+                            z-index: -1;
+                        }
+                    }
+                }
+                ul
+                {
+                    li
+                    {
+                        @apply pl-4;
+                        a
+                        {
+                            @apply block;
+                        }
+                    }
+                }
+            }
+            div.ContextMenus.DropdownContextMenusSide
+            {
+                div.content ul.child-1
+                {
+                    @apply shadow bg-white shadow-xl;
+                }
+
+            }
+
+        }
+    
+        &.close
+        {
+            padding: 0;
+        }
+        div.open-close
+        {
+            @apply fixed top-0 flex bg-white border-l items-center opacity-10 hover:opacity-100 cursor-pointer;
+        }
+
+    }
+    main
+    {
+        @apply w-full overflow-hidden;
+        z-index: 0;
+        > section
+        {
+            @apply mx-4 my-8 bg-white rounded-lg overflow-hidden;
+            > header
+            {
+                @apply w-full px-4 py-4 font-bold text-lg shadow-sm leading-none flex items-center justify-between;
+            }
+            > div.content
+            {
+                @apply p-4 overflow-auto;
+            }
+            > footer
+            {
+                @apply w-full px-4 py-4 font-bold text-lg border-t leading-none flex items-center justify-end;
+            }
+        }
+    }
+
+}

@@ -1,0 +1,5 @@
+    '{{ viewName }}': {
+        '{{ viewName }}一覧': route('{{ route }}.index'),
+        '{{ viewName }}新規作成': route('{{ route }}.create'),
+        0: route('{{ route }}.edit', {item: '*' }),
+    },

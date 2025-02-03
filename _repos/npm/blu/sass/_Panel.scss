@@ -1,0 +1,47 @@
+
+div.Panel
+{
+	@apply absolute w-full h-full top-0 left-0 pointer-events-none overflow-visible;
+	z-index: 92; // model よりも上
+	div.panel
+	{
+		@apply flex shadow-2xl bg-white border border-gray-100 pointer-events-auto overflow-hidden;
+		div.panel-content
+		{
+			@apply overflow-auto my-16;
+
+			margin-top: 4rem;
+			margin-bottom: 4rem;
+			height: calc(100% - 8rem);
+
+			button.close
+			{
+				@apply absolute top-0 right-0 m-3 z-10;
+			}
+			header
+			{
+				@apply px-4 py-2 shadow-sm flex cursor-move fixed  w-full h-16 flex items-center top-0;
+				height: 4rem;
+				h3
+				{
+					@apply font-bold text-xl;
+				}
+			}
+			main
+			{
+				@apply p-4 overflow-auto h-full;
+			}
+			footer
+			{
+				@apply px-4 py-2 border-t border-gray-100 bg-white flex cursor-move fixed bottom-0 w-full h-16 flex justify-end;
+				height: 4rem;
+			}
+		}
+
+		> div.no-footer:first-child
+		{
+			@apply pb-0;
+		}
+
+	}
+}

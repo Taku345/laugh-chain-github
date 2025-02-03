@@ -1,0 +1,14 @@
+declare var route
+
+export const menus = {
+
+    /* Examples
+    'サンプル': {
+        '一覧': route('admin.collect.index'),
+        '新規作成': route('admin.collect.create'),
+        'ゴミ箱': route('admin.collect.trash'),
+        0: route('admin.collect.edit', {item: '*' }),
+    },
+    */
+
+}

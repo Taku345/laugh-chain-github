@@ -1,0 +1,47 @@
+.SpotEditor
+{
+    .Editor
+    {
+        @apply rounded-lg border shadow-lg bg-white overflow-hidden w-full h-full;
+        min-width: 300px;
+        min-height: 100%;
+        width: 100%;
+        height: auto;
+        header
+        {
+            @apply p-2 border-b flex justify-start;
+        }
+        div.content
+        {
+            @apply p-0;
+        }
+        footer
+        {
+            @apply p-2 border-t flex justify-start;
+        }
+    }
+
+    td.editable
+    {
+        @apply relative;
+        button
+        {
+            @apply absolute bottom-1 right-0 py-0 px-1 block;
+            opacity: 0.1;
+            svg
+            {
+                width: 0.7em;
+                height: 0.9em;
+            }
+        }
+        &:hover
+        {
+            cursor: pointer;
+            text-decoration: underline;
+            button
+            {
+                opacity: 1;
+            }
+        }
+    }
+}

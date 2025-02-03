@@ -1,0 +1,147 @@
+
+.Form.Fields,
+.View.Fields
+{
+
+    /* grouping */
+    .FieldGroup
+    {
+        @apply flex justify-start items-start flex-wrap border-b;
+        .Field
+        {
+            @apply inline-block border-none;
+        }
+    }
+
+
+    .Field
+    {
+
+        @apply p-2 flex-col border-b;
+        @apply pb-4 pr-4;
+
+
+        .FieldLabel
+        {
+            @apply block font-bold text-slate-500 mb-1;
+
+            &.required
+            {
+                &:after
+                {
+                    content: '*';
+                    @apply text-red-400 ml-1;
+                }
+            }
+        }
+        .FieldInput
+        {
+            @apply flex items-center justify-start flex-wrap;
+
+            input[type=text],
+            input[type=tel],
+            input[type=url],
+            input[type=email],
+            input[type=date],
+            input[type=datetime-local],
+            input[type=time],
+            input[type=number],
+            textarea,
+            select
+            {
+                @apply rounded max-w-full;
+                &::placeholder
+                {
+                    @apply text-gray-400;
+                }
+            }
+            div.Radio,
+            div.Checkbox
+            {
+                > label
+                {
+                    @apply mr-4;
+                    &:last-child
+                    {
+                        //@apply mr-0;
+                    }
+                }
+                span.Raw
+                {
+                    @apply mr-4;
+                }
+            }
+            input.Order
+            {
+                @apply text-right;
+            }
+            .Raw
+            {
+                @apply inline-block p-2 border bg-slate-50 rounded;
+        
+                min-height: 2.5rem;
+                min-width: 10rem;
+            }
+
+
+            span.Before,
+            span.After
+            {
+                @apply text-slate-500;
+            }
+        }
+        .Description
+        {
+            @apply whitespace-pre-wrap text-sm text-slate-500;
+        }
+        .FieldErrors,
+        .OptionError
+        {
+            @apply font-bold text-red-500;
+        }
+        
+    }
+}
+
+
+.View.Fields
+{
+    .Field
+    {
+        .FieldLabel
+        {
+            @apply inline-block border px-2 py-1 rounded bg-slate-500 text-white inline-block text-sm;
+            &:after
+            {
+                content: '';
+                clear: both;
+                display: block;
+            }
+        }
+        .FieldInput
+        {
+            .Raw
+            {
+                @apply bg-inherit border-none px-0;
+                min-height: 2.5rem;
+                min-width: auto;
+            }
+
+            span.Before,
+            span.After
+            {
+                @apply text-slate-500 text-xs text-slate-500;
+            }
+        }
+
+    }
+}
+
+.InlineForm
+{
+    .FieldErrors,
+    .OptionError
+    {
+        @apply font-bold text-red-500;
+    }
+}

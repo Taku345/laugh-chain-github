@@ -1,0 +1,51 @@
+.Form.Fields,
+.View.Fields
+{
+    div.Bulk
+    {
+        @apply w-full my-2;
+        > table
+        {
+            @apply w-full;
+
+            td
+            {
+                @apply p-1;
+            }
+            td.Field
+            {
+                display: table-cell;
+            }
+            td.control
+            {
+                @apply text-center align-middle;
+            }
+        }
+
+        > ul
+        {
+            @apply w-full border-t-8;
+            li.Row
+            {
+                @apply w-full border-t border-l border-r flex justify-between items-stretch;
+                &:last-child
+                {
+                    @apply border-b;
+                }
+                .FieldGroup
+                {
+                    @apply border-none;
+
+                }
+                div.control
+                {
+                    @apply p-2 border-l flex items-center bg-slate-100;
+                }
+            }
+        }
+        div.Foot
+        {
+            @apply bg-slate-50 w-full border px-6 py-4;
+        }
+    }
+}

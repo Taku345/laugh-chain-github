@@ -1,0 +1,35 @@
+// SVGタグをURLエンコード
+@function svgUrlEncode($svg) {
+    $repMap : (
+        "<"  : "%3C",
+        ">"  : "%3E",
+        "#"  : "%23",
+        "{"  : "%7B",
+        "}"  : "%7D",
+        "\"" : "'"
+    );
+ 
+    $enc : $svg;
+ 
+    @each $s, $r in $repMap {
+        $enc : str-replace($s, $r, $enc, true);
+    }
+ 
+    @return $enc;
+}
+ 
+// SVGタグをData URIスキームとしてurl関数で返す
+@function svgUrlFunc($svg, $enc:true) {
+    @if $enc == true {
+        $svg : svgUrlEncode($svg);
+    }
+    @return url("data:image/svg+xml,#{$svg}");
+}
+
+$svg : '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="100px" height="100px" viewBox="0 0 100 100" xml:space="preserve"><g id="mark"><polygon fill="#FF9900" points="50,4 64.8,34 98,38.8 74,62.2 79.6,95.2 50,79.6 20.4,95.2 26,62.2 2,38.8 35.2,34"/></g></svg>';
+ 
+// URLエンコードのみの場合
+@debug svgUrlEncode($svg);
+ 
+// RULエンコードしてURL関数として出力する場合
+@debug svgUrlFunc($svg);

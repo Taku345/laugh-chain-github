@@ -1,0 +1,10 @@
+{
+    "name": "hajimekonagai/blu",
+    "description": "Blu",
+    "license": "MIT",
+    "autoload": {
+        "psr-0": {
+            "Blu\\": "src/"
+        }
+    }
+}

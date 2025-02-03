@@ -1,0 +1,2 @@
+export const Z_INDEX_MODAL_WRAPPER = 90
+export const Z_INDEX_PANEL_WRAPPER = 90
