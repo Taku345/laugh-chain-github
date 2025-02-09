@@ -131,9 +131,9 @@ class DistrictProgressService
             ]);
         }
 
-        if ($district->id == District::where('election_id', $district->election_id)->orderBy('created_at', 'DESC')->first()->id)
-        {
+        // if ($district->id == District::where('election_id', $district->election_id)->orderBy('created_at', 'DESC')->first()->id)
+        // {
             event(new \App\Events\ElectionProgressEvent($district->election, config('laugh_chain.election_close_message')));
-        }
+        // }
     }
 }

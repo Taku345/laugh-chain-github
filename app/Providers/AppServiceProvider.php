@@ -15,6 +15,10 @@ class AppServiceProvider extends ServiceProvider
         \Auth::provider('symbol_account', function ($app, array $config) {
             return new SymbolAccountProvider($app);
         });
+
+        $this->app->singleton(OpenAiService::class, function ($app) {
+            return new OpenAiService();
+        });
     }
 
     /**
