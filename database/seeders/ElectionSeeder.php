@@ -19,6 +19,9 @@ class ElectionSeeder extends Seeder
      */
     public function run(): void
     {
+        // シードを固定して毎回同じ乱数を生成
+        mt_srand(1234);
+
         // Create a sample election
         $election = Election::create([
             'name' => 'Dummy Electionダッ!!!!',
@@ -47,7 +50,7 @@ class ElectionSeeder extends Seeder
                     Vote::create([
                         'candidate_id' => $candidateId,
                         'public_key' => $user->public_key,
-                        'rate' => rand(1, 50), // ランダムな投票回数
+                        'rate' => mt_rand(1, 50), // 固定シードによる投票回数
                     ]);
                 }
             }
