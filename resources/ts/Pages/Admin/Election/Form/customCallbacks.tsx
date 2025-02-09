@@ -27,9 +27,9 @@ const customCallbacks = ({
             .then((res) =>
             {
                 console.log('res', res)
-                if (res.data && Array.isArray(res.data.theme))
+                if (res.data && Array.isArray(res.data.themes))
                 {
-                    setThemes(res.data.theme)
+                    setThemes(res.data.themes)
                 }
                 else
                 {
@@ -51,9 +51,9 @@ const customCallbacks = ({
             .then((res) =>
             {
                 console.log('res', res)
-                if (res.data && Array.isArray(res.data))
+                if (res.data && Array.isArray(res.data.opening_lines))
                 {
-                    setOpeningLines(res.data)
+                    setOpeningLines(res.data.opening_lines)
                 }
                 else
                 {
@@ -102,9 +102,9 @@ const customCallbacks = ({
                         {openingLines.map((openingLine) => (<li>
                             <button onClick={() => {
                                 const newData = {...data}
-                                newData.opening_line = openingLine.opening_line
+                                newData.opening_line = openingLine
                                 setData(newData)
-                            }}>{openingLine.opening_line}</button>
+                            }}>{openingLine}</button>
                         </li>))}
                         </ul>
                     )}

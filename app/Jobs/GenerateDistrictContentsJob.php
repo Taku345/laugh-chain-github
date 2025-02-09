@@ -43,20 +43,20 @@ class GenerateDistrictContentsJob implements ShouldQueue
             }
         }
 
-        \Log::info($history);
+        \Log::info('history: '.$history);
 
         $scene = $openAiService->generate_scene(
             $this->district->election->theme,
             $history
         );
-        \Log::info($scene);
+        \Log::info('scene: '.$scene);
 
         $history .= $scene."\n";
         $choices = $openAiService->generate_choices(
             $this->district->election->theme,
             $history
         );
-        \Log::info($choices);
+        \Log::info('choices: '.$choices);
 
         //
         // 

@@ -28,7 +28,7 @@ class DistrictProgress extends Command
      */
     public function handle()
     {
-        \Log::info(Election::open()->count());
+        // \Log::info(Election::open()->count());
         if (Election::open()->count() < 1) return;
 
         DistrictProgressService::exec_progress('voted'); // voted -> close

@@ -7,7 +7,7 @@ use App\Services\OpenAiService;
 
 class generate_scene extends Command
 {
-    protected $signature = 'generate_scene';
+    protected $signature = 'generate_scene {theme} {history}';
     protected $description = 'AIで選択肢間の繋ぎを生成する';
 
     protected $openAiService;
@@ -21,7 +21,7 @@ class generate_scene extends Command
 
     public function handle()
     {
-        $result = $this->openAiService->generate_scene();
+        $result = $this->openAiService->generate_scene($this->argument('theme'), $this->argument('history'));
         $this->info($result);
         
     }

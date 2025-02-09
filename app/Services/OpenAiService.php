@@ -25,7 +25,14 @@ class openAiService
 
     public function generate_themes()
     {
-        return $this->sendOpenAi(config('laugh_chain.openAi.prompt.generate.themes'));
+        $num = '3';
+        return $this->sendOpenAi(
+                                    config('laugh_chain.openAi.prompt.description') .
+                                    config('laugh_chain.openAi.prompt.dataFormat') .
+                                    config('laugh_chain.openAi.prompt.generate.themes.role') .
+                                    $num . config('laugh_chain.openAi.prompt.generate.themes.count') .
+                                    config('laugh_chain.openAi.prompt.generate.themes.format')
+                                );
     }
 
     public function generate_opening_line($theme)
@@ -36,8 +43,15 @@ class openAiService
 
     public function generate_opening_lines($theme)
     {
-        $messageToAi = config('laugh_chain.openAi.prompt.generate.opening_lines') . $theme;
-        return $this->sendOpenAi($messageToAi);
+        $num = '3';
+        return $this->sendOpenAi(
+                                    config('laugh_chain.openAi.prompt.description') .
+                                    config('laugh_chain.openAi.prompt.dataFormat') .
+                                    config('laugh_chain.openAi.prompt.generate.opening_lines.role') .
+                                    $num . config('laugh_chain.openAi.prompt.generate.opening_lines.count') .
+                                    config('laugh_chain.openAi.prompt.generate.opening_lines.count') . $theme .
+                                    config('laugh_chain.openAi.prompt.generate.opening_lines.format')
+                                );
     }
 
     public function generate_scene($theme, $history)
@@ -45,8 +59,8 @@ class openAiService
         // テストデータ
         /*
         $sampleData = array(
-            "theme" => "リモートワーク",
-            "history" => "お前、リモートワークって知ってるか？",
+            'theme' => 'リモートワーク',
+            'history' => 'お前、リモートワークって知ってるか？',
         );
         */
         $jsonData = json_encode([
@@ -54,8 +68,15 @@ class openAiService
             'history' => $history,
         ]);
 
-        $messageToAi = config('laugh_chain.openAi.prompt.generate.scene') . $jsonData;
-        return $this->sendOpenAi($messageToAi);
+        $num = '1';
+        return $this->sendOpenAi(
+                                    config('laugh_chain.openAi.prompt.description') .
+                                    config('laugh_chain.openAi.prompt.dataFormat') .
+                                    config('laugh_chain.openAi.prompt.generate.scene.role') .
+                                    $num . config('laugh_chain.openAi.prompt.generate.scene.count') .
+                                    config('laugh_chain.openAi.prompt.generate.scene.count') . $jsonData .
+                                    config('laugh_chain.openAi.prompt.generate.scene.format')
+                                );
     }
 
     public function generate_choices($theme, $history)
@@ -65,8 +86,15 @@ class openAiService
             'history' => $history,
         ]);
 
-        $messageToAi = config('laugh_chain.openAi.prompt.generate.choices') . $jsonData;
-        return $this->sendOpenAi($messageToAi);
+        $num = '5';
+        return $this->sendOpenAi(
+                                    config('laugh_chain.openAi.prompt.description') .
+                                    config('laugh_chain.openAi.prompt.dataFormat') .
+                                    config('laugh_chain.openAi.prompt.generate.choices.role') .
+                                    $num . config('laugh_chain.openAi.prompt.generate.choices.count') .
+                                    config('laugh_chain.openAi.prompt.generate.choices.count') . $jsonData .
+                                    config('laugh_chain.openAi.prompt.generate.choices.format')
+                                );
     }
     
 
@@ -103,7 +131,7 @@ class openAiService
 
         // JSONのエラーチェック
         if (json_last_error() !== JSON_ERROR_NONE) {
-            die("JSONの解析に失敗しました: " . json_last_error_msg());
+            die('JSONの解析に失敗しました: ' . json_last_error_msg());
         }
 
         return $data;
@@ -116,17 +144,17 @@ class openAiService
 
         // JSONのエラーチェック
         if (json_last_error() !== JSON_ERROR_NONE) {
-            die("JSONの解析に失敗しました: " . json_last_error_msg());
+            die('JSONの解析に失敗しました: ' . json_last_error_msg());
         }
 
         // 各テーマと一言目を表示
         foreach ($data as $item) {
-            echo "テーマ: " . $item["テーマ"] . "\n";
-            echo "一言目一覧:\n";
-            foreach ($item["一言目"] as $sentence) {
-                echo "- " . $sentence . "\n";
+            echo 'テーマ: ' . $item['テーマ'] . '\n';
+            echo '一言目一覧:\n';
+            foreach ($item['一言目'] as $sentence) {
+                echo '- ' . $sentence . '\n';
             }
-            echo "\n"; // 改行
+            echo '\n'; // 改行
         }
     }
 
@@ -137,7 +165,7 @@ class openAiService
 
         // JSONのエラーチェック
         if (json_last_error() !== JSON_ERROR_NONE) {
-            die("JSONの解析に失敗しました: " . json_last_error_msg());
+            die('JSONの解析に失敗しました: ' . json_last_error_msg());
         }
 
         // テーマを表示
@@ -145,14 +173,14 @@ class openAiService
             // テーマが配列でない場合はそのまま表示
             if (is_array($data['テーマ'])) {
                 foreach ($data['テーマ'] as $theme) {
-                    echo "- " . $theme . "\n";
+                    echo '- ' . $theme . '\n';
                 }
             } else {
                 // 単一の値の場合、そのまま表示
-                echo "- " . $data['テーマ'] . "\n";
+                echo '- ' . $data['テーマ'] . '\n';
             }
         } else {
-            echo "テーマが存在しません。\n";
+            echo 'テーマが存在しません。\n';
         }
     }
 
@@ -163,16 +191,16 @@ class openAiService
 
         // JSONのエラーチェック
         if (json_last_error() !== JSON_ERROR_NONE) {
-            die("JSONの解析に失敗しました: " . json_last_error_msg());
+            die('JSONの解析に失敗しました: ' . json_last_error_msg());
         }
 
         // テーマを表示
         if (isset($data['テーマ']) && is_array($data['テーマ'])) {
             foreach ($data['テーマ'] as $theme) {
-                echo "- " . $theme . "\n";
+                echo '- ' . $theme . '\n';
             }
         } else {
-            echo "テーマが存在しません。\n";
+            echo 'テーマが存在しません。\n';
         }
     }
 }

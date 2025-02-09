@@ -7,7 +7,7 @@ use App\Services\OpenAiService;
 
 class generate_choices extends Command
 {
-    protected $signature = 'generate_choices';
+    protected $signature = 'generate_choices {theme} {history}';
     protected $description = 'AIで選択肢を生成する';
 
     protected $openAiService;
@@ -21,7 +21,7 @@ class generate_choices extends Command
 
     public function handle()
     {
-        $result = $this->openAiService->generate_choices();
+        $result = $this->openAiService->generate_choices($this->argument('theme'), $this->argument('history'));
         $this->info($result);
         
     }
