@@ -28,4 +28,9 @@ class District extends Model
     {
         return $query->whereHas('election', function ($q) { $q->public();} );
     }
+
+    public function getWinnerCandidateAttribute(): ?Candidate
+    {
+        return $this->candidate->sortBy(function ($c) { return $c->vote->count(); } )->last();
+    }
 }

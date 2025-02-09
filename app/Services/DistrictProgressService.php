@@ -71,7 +71,7 @@ class DistrictProgressService
                 }
 
                 // 最多得票数が終了のキーワードに一致
-                $winner_candidate = $district->candidate->sortBy(function ($c) { return $c->vote->count(); } )->last();
+                $winner_candidate = $district->winner_candidate;
                 if ($winner_candidate->name == config('laugh_chain.close_keyward'))
                 {
                     static::close_election($district, $append_keyward = false);
@@ -146,10 +146,13 @@ class DistrictProgressService
         // $district->Election_idに関する全districtを取得する
         $districts = District::where('election_id', $district->election_id)
             ->get();
+        $user_scores = [];
         foreach ($districts as $district) {
-            // $district->
+            $candidates = Candidate::where('district_id', $district->id)
+            ->get();
+
 
         }
-        return ;
+        return;
     }
 }
