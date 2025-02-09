@@ -1,28 +1,115 @@
 import { FieldInputFormProps } from "blu/Components/types/Field"
 import * as user_constants from "../../User/constants"
 import IndexChoiceForm from "@/Components/Reference/IndexChoiceForm"
+import Input from "blu/Components/Form/Field/Input"
+import axios from 'axios'
+import { useState } from "react"
+import { toast } from "react-toastify"
 
 declare var route
 
 const customCallbacks = ({
-    item=null,
-    userReferenceConfigs,
+    data,
 }) => {
 
+    const [ themes, setThemes ] = useState<string[]>([])
+    const [ themeThinking, setThemeThinking ] = useState(false)
+
+
+    const [ openingLines, setOpeningLines ] = useState<string[]>([])
+    const [ openingLineThinking, setOpeningLineThinking ] = useState(false)
+
+    const generate_theme = () =>
+    {
+        setThemeThinking(true)
+        
+        axios.get(route('admin.api.ai.generate_themes'))
+            .then((res) =>
+            {
+                console.log('res', res)
+                if (res.data && Array.isArray(res.data.theme))
+                {
+                    setThemes(res.data.theme)
+                }
+                else
+                {
+                    toast.error('AI のテーマの取得に失敗しました。もう一度考えさせてください。')
+                    
+                }
+            })
+            .finally(() =>
+            {
+                setThemeThinking(false)
+            })
+    }
+
+    const generate_opening_line = () =>
+    {
+        setOpeningLineThinking(true)
+
+        axios.get(route('admin.api.ai.generate_opening_lines', {theme: data.name}))
+            .then((res) =>
+            {
+                console.log('res', res)
+                if (res.data && Array.isArray(res.data))
+                {
+                    setOpeningLines(res.data)
+                }
+                else
+                {
+                    toast.error('一行目の取得に失敗しました。もう一度考えさせてください。')
+                    
+                }
+            })
+            .finally(() =>
+            {
+                setOpeningLineThinking(false)
+            })
+    }
+
     return {
-        'candidate': (props: FieldInputFormProps) => {
+        'name': (props: FieldInputFormProps) => {
             const { config, data, setData } = props
-            return <IndexChoiceForm
-                modalTitle='Candidate - 参照'
-                apiUrl={route('admin.api.election.candidates')}
-                fieldKey={'candidate'}
-                config={config}
-                data={data}
-                setData={setData}
-                referenceConfigs={userReferenceConfigs}
-                index_preference_key={user_constants.INDEX_PREFERENCE_KEY}
-                search_preference_key={user_constants.SEARCH_PREFERENCE_KEY}
-            />
+            return <div>
+                <Input
+                    {...props}
+                />
+                <button onClick={generate_theme} disabled={themeThinking}>AIにテーマを考えさせる</button>
+                {themeThinking && (<>考え中...</>) || (
+                <ul>
+                    {themes.map((theme) => (<li>
+                        <button onClick={() => {
+                            const newData = {...data}
+                            newData.name = theme
+                            setData(newData)
+                        }}>{theme}</button>
+                    </li>))}
+                    </ul>
+                )}
+            </div>
+        },
+
+        'opening_line': (props: FieldInputFormProps) => {
+            const { config, data, setData } = props
+            return <div>
+                <Input
+                    {...props}
+                />
+                {(data.name && data.name.length) > 0 && (<>
+                    <button onClick={generate_opening_line} disabled={openingLineThinking}>AIに一行目を考えさせる</button>
+                    {openingLineThinking && (<>考え中...</>) || (
+                    <ul>
+                        {openingLines.map((openingLine) => (<li>
+                            <button onClick={() => {
+                                const newData = {...data}
+                                newData.opening_line = openingLine.opening_line
+                                setData(newData)
+                            }}>{openingLine.opening_line}</button>
+                        </li>))}
+                        </ul>
+                    )}
+                </>)}
+            </div>
         },
     }
 }

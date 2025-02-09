@@ -82,8 +82,7 @@ const Create = ({
                     preference={formPreference.preference}
                     errors={errors}
                     callbacks={customCallbacks({
-                        item: item,
-                        userReferenceConfigs,
+                        data
                     })}
                 />
             </div>

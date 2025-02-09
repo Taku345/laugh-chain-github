@@ -40,6 +40,23 @@ return [
             'sort' => true,
             'required' => true,
         ],
+        'opening_line' => [
+            'label' => '一行目',
+            'type' => 'text',
+            'size'=> 60,
+            'deacription' => '未入力では、最初から投票が始まります。',
+            'search' => [
+                'opening_line' => [
+                    'label' => 'Name',
+                    'type' => 'text',
+                    'compare' => 'like',
+                    'placeholder' => 'あいまい検索',
+                ],
+            ],
+            'sort' => true,
+            'required' => true,
+        ],
+
         'is_public' => [
             'label' => 'Public',
             'type' => 'radio',
@@ -104,6 +121,7 @@ return [
     'form' => [
         'is_public',
         'name',
+        'opening_line',
         'scheduled_at',
         'district_limit',
     ],

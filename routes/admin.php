@@ -30,8 +30,8 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'admin', 'as' => 'admin.']
 
     Route::get('api/ai/generate_theme', [AiApiController::class, 'generate_theme'])->name('api.ai.generate_theme');
     Route::get('api/ai/generate_themes', [AiApiController::class, 'generate_themes'])->name('api.ai.generate_themes');
-    Route::get('api/ai/generate_opening_line/{item}', [AiApiController::class, 'generate_opening_line'])->name('api.ai.generate_opening_line');
-    Route::get('api/ai/generate_opening_lines/{item}', [AiApiController::class, 'generate_opening_lines'])->name('api.ai.generate_opening_lines');
+    Route::get('api/ai/generate_opening_line', [AiApiController::class, 'generate_opening_line'])->name('api.ai.generate_opening_line');
+    Route::get('api/ai/generate_opening_lines', [AiApiController::class, 'generate_opening_lines'])->name('api.ai.generate_opening_lines');
     Route::get('api/ai/generate_scene', [AiApiController::class, 'generate_scene'])->name('api.ai.generate_scene');
     Route::get('api/ai/generate_choices', [AiApiController::class, 'generate_choices'])->name('api.ai.generate_choices');
 });

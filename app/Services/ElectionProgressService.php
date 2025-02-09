@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Election;
+use App\Models\District;
 
 class ElectionProgressService
 {
@@ -20,6 +21,15 @@ class ElectionProgressService
         $election->is_public = true;
         $election->scheduled_at = null;
         $election->save();
+
+        if ($election->opening_line)
+        {
+            District::create([
+                'election_id' => $election->id,
+                'name' => $election->opening_line,
+                'progress' => config('laugh_chain.district.progress.close'),
+            ]);
+        }
 
         GenerateService::newDistrict($election);
         event(new \App\Events\ElectionProgressEvent($election, config('laugh_chain.election_start_message')));

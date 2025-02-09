@@ -79,6 +79,10 @@ const Edit = ({
                     setData={setData}
                     preference={formPreference.preference}
                     errors={errors}
+                    callbacks={customCallbacks({
+                        item,
+                        data
+                    })}
                 />
             </div>
             <footer className=''>

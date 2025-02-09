@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
 
             $table->string('name');
+            $table->string('opening_line')->nullable()->default(null);
 
             $table->boolean('is_public')->default(false);
             $table->datetime('scheduled_at')->nullable()->default(null);

@@ -40,27 +40,30 @@ class openAiService
         return $this->sendOpenAi($messageToAi);
     }
 
-    public function generate_scene()
+    public function generate_scene($theme, $history)
     {
         // テストデータ
+        /*
         $sampleData = array(
             "theme" => "リモートワーク",
             "history" => "お前、リモートワークって知ってるか？",
         );
-        $jsonData = json_encode($sampleData);
+        */
+        $jsonData = json_encode([
+            'theme' => $theme,
+            'history' => $history,
+        ]);
 
         $messageToAi = config('laugh_chain.openAi.prompt.generate.scene') . $jsonData;
         return $this->sendOpenAi($messageToAi);
     }
 
-    public function generate_choices()
+    public function generate_choices($theme, $history)
     {
-        // テストデータ
-        $sampleData = array(
-            "theme" => "リモートワーク",
-            "history" => "お前、リモートワークって知ってるか？",
-        );
-        $jsonData = json_encode($sampleData);
+        $jsonData = json_encode([
+            'theme' => $theme,
+            'history' => $history,
+        ]);
 
         $messageToAi = config('laugh_chain.openAi.prompt.generate.choices') . $jsonData;
         return $this->sendOpenAi($messageToAi);

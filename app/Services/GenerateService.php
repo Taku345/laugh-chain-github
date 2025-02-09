@@ -5,6 +5,8 @@ namespace App\Services;
 use App\Models\District;
 use App\Models\Candidate;
 
+use App\Jobs\GenerateDistrictContentsJob;
+
 class GenerateService
 {
     public static function newDistrict($election)
@@ -13,13 +15,20 @@ class GenerateService
         $new_district = District::create([
             'election_id' => $election->id,
         ]);
+
+
+
         // TODO: 作成した district に対して AI で生成する job を投げておく
         // TODO: AI と JOB 化
-        static::generateCandidateAndCreate($new_district);
+
+        GenerateDistrictContentsJob::dispatch($new_district);
+
+        //  static::generateCandidateAndCreate($new_district);
 
         return $new_district;
     }
 
+    /*
     public static function  generateCandidateAndCreate($district)
     {
         $candidates = static::generateCandidate();
@@ -41,4 +50,5 @@ class GenerateService
             'test C',
         ];
     }
+        */
 }

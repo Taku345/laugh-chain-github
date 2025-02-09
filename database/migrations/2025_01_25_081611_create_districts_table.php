@@ -18,6 +18,8 @@ return new class extends Migration
 
             $table->integer('progress')->default(0);
 
+            $table->text('scene')->nullable()->default(null);
+
             $table->timestamps();
         });
     }

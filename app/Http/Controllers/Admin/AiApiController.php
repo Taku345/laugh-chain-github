@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use App\Models\Election;
 use App\Services\OpenAiService;
 
 class AiApiController extends Controller
@@ -28,12 +29,20 @@ class AiApiController extends Controller
     }
 
     // 一言目生成
-    public function generate_opening_line($theme)
+    public function generate_opening_line(Request $request)
     {
+        $theme = $request->input('theme');
+
+        if (!$theme) abort(404);
+
         return $this->openAiService->generate_opening_line($theme);
     }
-    public function generate_opening_lines($theme)
+    public function generate_opening_lines(Request $request)
     {
+        $theme = $request->input('theme');
+
+        \Log::info('theme: '.$theme);
+
         return $this->openAiService->generate_opening_lines($theme);
     }
 
