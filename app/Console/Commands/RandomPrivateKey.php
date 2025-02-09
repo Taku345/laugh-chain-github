@@ -31,5 +31,7 @@ class RandomPrivateKey extends Command
         $accountKey = $facade->createAccount(PrivateKey::random());
         echo  "===秘密鍵===" . PHP_EOL;
         echo  $accountKey->keyPair->privateKey(). PHP_EOL;
+        echo  "===公開鍵===" . PHP_EOL;
+        echo  $accountKey->keyPair->publicKey(). PHP_EOL;
     }
 }
