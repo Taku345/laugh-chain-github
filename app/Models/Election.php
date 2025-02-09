@@ -99,7 +99,8 @@ class Election extends Model
             return 'private';
 
         if (
-            $this->scheduled_at && strtotime($this->scheduled_at) < now() ||
+            $this->scheduled_at &&
+            strtotime($this->scheduled_at) < strtotime(now()) ||
             $this->district->count() < 1
         )
             return 'before';
