@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Models\District;
 use App\Models\Candidate;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 
 class DistrictProgressService
 {
@@ -131,9 +133,23 @@ class DistrictProgressService
             ]);
         }
 
+        // 選挙終了なら
         if ($district->id == District::where('election_id', $district->election_id)->orderBy('created_at', 'DESC')->first()->id)
         {
             event(new \App\Events\ElectionProgressEvent($district->election, config('laugh_chain.election_close_message')));
         }
+        // self::choose_best_users($district);
+    }
+
+    public static function choose_best_users($district)//: Collection
+    {
+        // $district->Election_idに関する全districtを取得する
+        $districts = District::where('election_id', $district->election_id)
+            ->get();
+        foreach ($districts as $district) {
+            // $district->
+
+        }
+        return ;
     }
 }
