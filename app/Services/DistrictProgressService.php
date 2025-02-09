@@ -132,11 +132,12 @@ class DistrictProgressService
             ]);
         }
 
-        // 選挙終了なら
         if ($district->id == District::where('election_id', $district->election_id)->orderBy('created_at', 'DESC')->first()->id)
         {
             event(new \App\Events\ElectionProgressEvent($district->election, config('laugh_chain.election_close_message')));
         }
-        // self::choose_best_users($district);
+        // TODO: best_userを算出
+
+        // TODO: mintNFT
     }
 }

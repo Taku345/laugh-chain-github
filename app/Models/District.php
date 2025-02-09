@@ -31,6 +31,12 @@ class District extends Model
 
     public function getWinnerCandidateAttribute(): ?Candidate
     {
-        return $this->candidate->sortBy(function ($c) { return $c->vote->count(); } )->last();
+        return $this->candidate->sortBy(function ($c) {
+            $sum = 0;
+            foreach($c->vote as $vote){
+                $sum += $vote->rate;
+            }
+            return $sum;
+        } )->last();
     }
 }
