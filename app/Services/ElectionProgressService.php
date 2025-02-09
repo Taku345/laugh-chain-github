@@ -30,15 +30,14 @@ class ElectionProgressService
     // スケジュールされたものを開始
     public static function start_scheduleds()
     {
-        $electioins = Election::scheduled()
-            ->where();
+        $elections = Election::scheduled();
 
         foreach ($elections as $election)
         {
-            if (strtotime($election->scheduled_at) < now())
+            if (strtotime($election->scheduled_at) < strtotime(now()))
             {
                 GenerateService::newDistrict($election);
-                event(new \App\Events\ElectionProgressEvent($district->election, config('laugh_chain.election_start_message')));
+                event(new \App\Events\ElectionProgressEvent($election, config('laugh_chain.election_start_message')));
             }
         }
     }
