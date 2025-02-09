@@ -11,6 +11,7 @@ const VoteButton = ({
     initialRate = 0,
 }) =>
 {
+    const auth: any = usePage().props.auth
     const laugh_chain_config: any = usePage().props.laugh_chain_config
 
     const [ rate, setRate ] = useState(initialRate)
@@ -59,7 +60,7 @@ const VoteButton = ({
     return (<>
         「{candidate.name}」
 
-        {district.progress == laugh_chain_config.district.progress.voting && (<>
+        {(auth.account && district.progress == laugh_chain_config.district.progress.voting) && (<>
             <button
                 className='rounded bg-slate-600 text-white px-4 py-2'
                 onClick={vote}

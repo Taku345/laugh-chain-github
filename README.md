@@ -18,7 +18,7 @@ alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'
 
 ```
 # docker inisialization
-docker run --rm -v $(pwd):/opt -w /opt laravelsail/php82-composer:latest bash -c "composer install"
+docker run --rm -v $(pwd):/opt -w /opt laravelsail/php84-composer:latest bash -c "composer install"
 
 # run server
 ./vendor/bin/sail up -d

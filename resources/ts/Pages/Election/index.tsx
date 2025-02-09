@@ -5,7 +5,7 @@ import axios from 'axios';
 import District from './District';
 import Process from './Process';
 import { Pusher, Echo } from '@/classes/echo';
-import { useEffect } from 'react';
+import { Fragment, useEffect } from 'react';
 import { toast } from 'react-toastify';
 
 declare var route
@@ -23,7 +23,6 @@ const Election = ({
         // Echo.connect()
         Echo.leaveAllChannels()
         const echo = Echo.channel(`election-progress.${election.id}`).listen("ElectionProgressEvent", function (e) {
-            console.log(e)
             toast.info(e.message)
             queryClient.invalidateQueries()
         });
@@ -54,23 +53,23 @@ const Election = ({
                         <div className="p-6 text-gray-900 flex items-end">
 
 {isLoading && (<div>Loading....</div>) || (<div className='w-3/5 mr-4'>
-    {data.district.map((district, district_index)  => (<>
-        {district_index}
+    {data.district.map((district, district_index)  => (
         <District
+            key={district.id}
+            index={district_index}
             district={district}
             forceClose={district_index < (data.district.length - 1)}
         />
-    </>
     ))}
 </div>)}
 
 {isLoading && (<div>Loading....</div>) || (<div className="w-2/5 sticky border rounded p-2">
-    {data.district.map((district, district_index)  => (<>
+    {data.district.map((district, district_index)  => (<Fragment key={district.id}>
         {district_index}
         {district_index < (data.district.length - 1) && (
-            <Process district={district} />
+            <Process key={district.id} district={district} />
         )}
-    </>))}
+    </Fragment>))}
 </div>)}
 
 

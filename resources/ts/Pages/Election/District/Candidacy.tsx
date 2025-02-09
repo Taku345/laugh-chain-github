@@ -11,6 +11,7 @@ const Candidacy = ({
     district
 }) =>
 {
+    const auth: any = usePage().props.auth
     const laugh_chain_config: any = usePage().props.laugh_chain_config
 
     const { data, setData, post, errors, processing, recentlySuccessful } = useForm({
@@ -62,11 +63,13 @@ const Candidacy = ({
 
     return <>
         <ul className="text-sm flex flex-wrap">
-            {district.candidate.map((candidate) => (<div className=" border rounded p-4 px-6 my-2 ml-1">
+            {district.candidate.map((candidate) => (<div key={candidate.id} className=" border rounded p-4 px-6 my-2 ml-1">
                 「{candidate.name}」
             </div>))}
         </ul>
-        {district.progress == laugh_chain_config.district.progress.running && (<>
+
+
+        {(auth.account && district.progress == laugh_chain_config.district.progress.running) && (<>
             <input type="text" value={data.name} onChange={(e) => setData({ name: e.target.value})} size={100} className="w-full" />
             <button onClick={send} disabled={processing} className={` ${processing ? 'bg-slate:100': ''} rounded bg-slate-600 text-white font-bold py-2 px-10 my-2 text-lg`}>立候補</button>
             {errors.name && (<div className="text-red-500">{errors.name}</div>)}

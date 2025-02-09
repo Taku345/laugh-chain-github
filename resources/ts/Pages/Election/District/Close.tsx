@@ -9,7 +9,7 @@ const Close = ({
 
     return (<>
         <ul className="text-sm flex flex-wrap">
-            {district.candidate.map((candidate) => (<div className="border rounded p-4 px-6 my-2 ml-1 text-gray-300">
+            {district.candidate.map((candidate) => (<div key={candidate.id} className="border rounded p-4 px-6 my-2 ml-1 text-gray-300">
                 {candidate.name}「{candidate.my_vote_sum_rate ? candidate.my_vote_sum_rate : 0}/{candidate.vote_sum_rate ? candidate.vote_sum_rate : 0}」
             </div>))}
         </ul>
