@@ -11,4 +11,5 @@ Artisan::command('inspire', function () {
 
 
 Schedule::command('app:district-progress')->everySecond()->withoutOverlapping();
+Schedule::command('app:election-progress')->everyFiveSeconds()->withoutOverlapping();
 // Schedule::command('queue:work')->everySecond()->withoutOverlapping();
