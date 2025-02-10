@@ -4,6 +4,7 @@ namespace App\Services\Symbol;
 
 use Exception;
 use Illuminate\Support\Facades\Log;
+use SymbolSdk\Symbol\Models\PublicKey;
 use SymbolSdk\Symbol\Models\MosaicFlags;
 use SymbolSdk\Symbol\IdGenerator;
 use SymbolSdk\Symbol\Models\NetworkType;
@@ -20,6 +21,7 @@ use SymbolSdk\Symbol\Models\AggregateCompleteTransactionV2;
 use SymbolSdk\Symbol\Models\Timestamp;
 use SymbolSdk\Symbol\Models\UnresolvedAddress;
 use SymbolSdk\Symbol\Address;
+use SymbolSdk\Symbol\Models\UnresolvedMosaic;
 
 /**
  * NFT関連のサービスクラス
@@ -103,13 +105,19 @@ class NFTService
         );
     }
 
-    private static function createNFTTransferTx($officialAccount, $AccountAddress, $StoryAddress): EmbeddedTransferTransactionV1
+    private static function createNFTTransferTx($officialAccount, $AccountAddress, $StoryAddress, $mosaicId): EmbeddedTransferTransactionV1
     {
         return new EmbeddedTransferTransactionV1(
             network: new NetworkType(NetworkType::TESTNET),
             signerPublicKey: $officialAccount->publicKey,
             recipientAddress: new UnresolvedAddress($AccountAddress),
-            message: "\0$StoryAddress"
+            mosaics: [
+                new UnresolvedMosaic(
+                    mosaicId: new UnresolvedMosaicId($mosaicId['id']),
+                    amount: new Amount(1)
+                )
+            ],
+            message: "\0$StoryAddress",
         );
     }
 
@@ -129,8 +137,8 @@ class NFTService
     }
 
     public static function mintNFT(
-        Address|UnresolvedAddress|String $StoryAddress,
-        UnresolvedAddress $AccountAddress
+        Address|UnresolvedAddress|String $storyAddress,
+        UnresolvedAddress|PublicKey $addressOrPublicKey
     ){
         // ServiceProviderからsymbol操作用クラスを取得
         $symbol = app('symbol.config');
@@ -138,13 +146,22 @@ class NFTService
         $transactionRoutesApi = $symbol['transactionRoutesApi'];
         $officialAccount = $symbol['officialAccount'];
 
+        //複数の引数の型に対応
+        if ($addressOrPublicKey instanceof UnresolvedAddress) {
+            $accountAddress = $addressOrPublicKey;
+        } elseif ($addressOrPublicKey instanceof PublicKey) {
+            $accountAddress = $facade->createPublicAccount(new PublicKey($addressOrPublicKey))->address;
+        } else {
+            throw new Exception('mintNFT 引数型エラー: 第二引数はUnresolvedAddress or PublicKey型にしてください');
+        }
+
         $mosaicId = IdGenerator::generateMosaicId($officialAccount->address);
         $flags = self::createMosaicFlags();
 
         // 各トランザクションの作成
         $mosaicDefTx = self::createMosaicDefinitionTx($officialAccount, $mosaicId, $flags);
         $mosaicChangeTx = self::createMosaicSupplyChangeTx($officialAccount, $mosaicId);
-        $nftTx = self::createNFTTransferTx($officialAccount, $AccountAddress, $StoryAddress);
+        $nftTx = self::createNFTTransferTx($officialAccount, $accountAddress, $storyAddress, $mosaicId);
 
         // アグリゲートトランザクションの作成
         $embeddedTransactions = [$mosaicDefTx, $mosaicChangeTx, $nftTx];
@@ -163,4 +180,5 @@ class NFTService
 
         return $facade->hashTransaction($aggregateTx);
     }
+
 }

@@ -116,14 +116,13 @@ class Election extends Model
     /**
      * winner_candidateに対し最も連打したユーザーをbest_userとする
      */
-    public function getBestUserAttribute()// User
+    public function getBestUserPublicKeyAttribute()// User
     {
         // $district->Election_idに関する全districtを取得する
         $districts = District::where('election_id', $this->id)->get();
         $winner_candidate_ids = [];
         foreach ($districts as $district) {
             $winner_candidate_ids[] = $district->winner_candidate->id;
-            dump($district->winner_candidate->name);
         }
         $public_key = Vote::whereIn('candidate_id', $winner_candidate_ids)
             ->select('public_key')
@@ -131,9 +130,9 @@ class Election extends Model
             ->groupBy('public_key')
             ->orderByDesc('total_rate')
             ->get();
-        dd($public_key->toArray());
+        // dd($public_key);
 
-        return $public_key ? $public_key->public_key : null;
+        return $public_key ? $public_key->first()->public_key : null;
     }
 
 }

@@ -3,17 +3,17 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Models\Election;
-use Illuminate\Support\Facades\DB;
+use SymbolSdk\Symbol\Models\PublicKey;
+use App\Services\Symbol\NFTService;
 
-class BestUser extends Command
+class MintNFT extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'app:best-user';
+    protected $signature = 'app:mint-nft';
 
     /**
      * The console command description.
@@ -27,8 +27,6 @@ class BestUser extends Command
      */
     public function handle()
     {
-        $latest_election = Election::latest('id')->first();
-        echo "ベストユーザーのPublic_keyダッ!!!" . PHP_EOL;
-        dd($latest_election->best_user_public_key);
+        NFTService::mintNFT("localhost/test1",new PublicKey(config('test_user_keys.test_user_1.public_key')));
     }
 }
