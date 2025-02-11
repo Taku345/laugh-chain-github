@@ -129,34 +129,33 @@ class NFTService
         $metadataRoutesApi = $symbol['metadataRoutesApi'];
         $officialAccount = $symbol['officialAccount'];
 
-        $mosaicIdStr = $mosaicId['id'];
-
-        $mosaicInfo = $mosaicRoutesApi->getMosaic($mosaicIdStr);
-        $sourceAddress = $mosaicInfo['mosaic']['owner_address']; // モザイク作成者アドレス
+        // $mosaicInfo = $mosaicRoutesApi->getMosaic(dechex($mosaicId['id']));
+        // $sourceAddress = $mosaicInfo['mosaic']['owner_address']; // モザイク作成者アドレス
 
         $keyId = Metadata::metadataGenerateKey("key_mosaic");
         $newValue = $storyAddress;
 
         // 同じキーのメタデータが登録されているか確認
-        $metadataInfo = $metadataRoutesApi->searchMetadataEntries(
-        target_id: $mosaicIdStr,
-        source_address: new UnresolvedAddress($sourceAddress),
-        scoped_metadata_key: strtoupper(dechex($keyId)),  // 16進数の大文字の文字列に変換
-        metadata_type: 1,
-        );
+        // $metadataInfo = $metadataRoutesApi->searchMetadataEntries(
+        //     target_id: $mosaicId['id'],
+        //     source_address: new UnresolvedAddress($officialAccount->address),
+        //     scoped_metadata_key: strtoupper(dechex($keyId)),  // 16進数の大文字の文字列に変換
+        //     metadata_type: 1,
+        // );
 
-        $oldValue = hex2bin($metadataInfo['data'][0]['metadata_entry']['value']); //16進エンコードされたバイナリ文字列をデコード
-        $updateValue = Metadata::metadataUpdateValue($oldValue, $newValue, true);
+        // $oldValue = hex2bin($metadataInfo['data'][0]['metadata_entry']['value']); //16進エンコードされたバイナリ文字列をデコード
+        $updateValue = Metadata::metadataUpdateValue(null, $newValue, true);
 
         $tx = new EmbeddedMosaicMetadataTransactionV1(
-        network: new NetworkType(NetworkType::TESTNET),
-        signerPublicKey: $officialAccount->publicKey,  // 署名者公開鍵
-        targetMosaicId: new UnresolvedMosaicId(hexdec($mosaicIdStr)),
-        targetAddress: new UnresolvedAddress($sourceAddress),
-        scopedMetadataKey: $keyId,
-        valueSizeDelta: strlen($newValue) - strlen($oldValue),
-        value: $updateValue,
+            network: new NetworkType(NetworkType::TESTNET),
+            signerPublicKey: $officialAccount->publicKey,  // 署名者公開鍵
+            targetMosaicId: new UnresolvedMosaicId($mosaicId['id']),
+            targetAddress: new UnresolvedAddress($officialAccount->address),
+            scopedMetadataKey: $keyId,
+            valueSizeDelta: strlen($newValue),
+            value: $updateValue,
         );
+        return $tx;
     }
 
     private static function createAggregateTransaction($facade, $officialAccount, $embeddedTransactions): AggregateCompleteTransactionV2

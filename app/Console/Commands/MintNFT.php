@@ -27,6 +27,6 @@ class MintNFT extends Command
      */
     public function handle()
     {
-        NFTService::mintNFT("localhost/test1",new PublicKey(config('test_user_keys.test_user_1.public_key')));
+        NFTService::mintNFT("localhost/test1", new PublicKey(config('test_user_keys.test_user_1.public_key')));
     }
 }
