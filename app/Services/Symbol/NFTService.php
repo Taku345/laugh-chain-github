@@ -21,6 +21,8 @@ use SymbolSdk\Symbol\Models\AggregateCompleteTransactionV2;
 use SymbolSdk\Symbol\Models\Timestamp;
 use SymbolSdk\Symbol\Models\UnresolvedAddress;
 use SymbolSdk\Symbol\Address;
+use SymbolSdk\Symbol\Metadata;
+use SymbolSdk\Symbol\Models\EmbeddedMosaicMetadataTransactionV1;
 use SymbolSdk\Symbol\Models\UnresolvedMosaic;
 
 /**
@@ -121,6 +123,42 @@ class NFTService
         );
     }
 
+    private static function changeMetaDataTx($mosaicId, $storyAddress){
+        $symbol = app('symbol.config');
+        $mosaicRoutesApi = $symbol['mosaicRoutesApi'];
+        $metadataRoutesApi = $symbol['metadataRoutesApi'];
+        $officialAccount = $symbol['officialAccount'];
+
+        $mosaicIdStr = $mosaicId['id'];
+
+        $mosaicInfo = $mosaicRoutesApi->getMosaic($mosaicIdStr);
+        $sourceAddress = $mosaicInfo['mosaic']['owner_address']; // モザイク作成者アドレス
+
+        $keyId = Metadata::metadataGenerateKey("key_mosaic");
+        $newValue = $storyAddress;
+
+        // 同じキーのメタデータが登録されているか確認
+        $metadataInfo = $metadataRoutesApi->searchMetadataEntries(
+        target_id: $mosaicIdStr,
+        source_address: new UnresolvedAddress($sourceAddress),
+        scoped_metadata_key: strtoupper(dechex($keyId)),  // 16進数の大文字の文字列に変換
+        metadata_type: 1,
+        );
+
+        $oldValue = hex2bin($metadataInfo['data'][0]['metadata_entry']['value']); //16進エンコードされたバイナリ文字列をデコード
+        $updateValue = Metadata::metadataUpdateValue($oldValue, $newValue, true);
+
+        $tx = new EmbeddedMosaicMetadataTransactionV1(
+        network: new NetworkType(NetworkType::TESTNET),
+        signerPublicKey: $officialAccount->publicKey,  // 署名者公開鍵
+        targetMosaicId: new UnresolvedMosaicId(hexdec($mosaicIdStr)),
+        targetAddress: new UnresolvedAddress($sourceAddress),
+        scopedMetadataKey: $keyId,
+        valueSizeDelta: strlen($newValue) - strlen($oldValue),
+        value: $updateValue,
+        );
+    }
+
     private static function createAggregateTransaction($facade, $officialAccount, $embeddedTransactions): AggregateCompleteTransactionV2
     {
         $merkleHash = $facade->hashEmbeddedTransactions($embeddedTransactions);
@@ -161,10 +199,11 @@ class NFTService
         // 各トランザクションの作成
         $mosaicDefTx = self::createMosaicDefinitionTx($officialAccount, $mosaicId, $flags);
         $mosaicChangeTx = self::createMosaicSupplyChangeTx($officialAccount, $mosaicId);
+        $mosaicMetaDataTx = self::changeMetaDataTx($mosaicId, $storyAddress);
         $nftTx = self::createNFTTransferTx($officialAccount, $accountAddress, $storyAddress, $mosaicId);
 
         // アグリゲートトランザクションの作成
-        $embeddedTransactions = [$mosaicDefTx, $mosaicChangeTx, $nftTx];
+        $embeddedTransactions = [$mosaicDefTx, $mosaicChangeTx, $mosaicMetaDataTx, $nftTx];
         $aggregateTx = self::createAggregateTransaction($facade, $officialAccount, $embeddedTransactions);
 
         // 署名とアナウンス

@@ -11,6 +11,7 @@ use SymbolRestClient\Api\TransactionRoutesApi;
 use SymbolRestClient\Api\AccountRoutesApi;
 use SymbolRestClient\Api\MosaicRoutesApi;
 use GuzzleHttp\Client;
+use SymbolRestClient\Api\MetadataRoutesApi;
 use SymbolSdk\CryptoTypes\PrivateKey;
 
 
@@ -34,6 +35,7 @@ class SymbolServiceProvider extends ServiceProvider
                 'mosaicRoutesApi' => new MosaicRoutesApi($client, $config),
                 'nodeRoutesApi' => new NodeRoutesApi($client, $config),
                 'networkRoutesApi' => new NetworkRoutesApi($client, $config),
+                'metadataRoutesApi' => new MetadataRoutesApi($client, $config),
                 'officialAccount' => $facade->createAccount(new PrivateKey(env('OFFICIAL_ACCOUNT_PRIVATE_KEY'))),
                 'testUserAccount' => $facade->createAccount(new PrivateKey(env('TEST_USER_ACCOUNT_PRIVATE_KEY'))),
             ];
