@@ -10,14 +10,14 @@ declare var route
 
 export default function Login({ status, canResetPassword }) {
     const { data, setData, post, processing, errors, reset } = useForm({
-        private_key: '',
+        public_key: '',
     });
 
     const submit = (e) => {
         e.preventDefault();
 
         post(route('login'), {
-            onFinish: () => reset('private_key'),
+            onFinish: () => reset('public_key'),
         });
     };
 
@@ -33,19 +33,19 @@ export default function Login({ status, canResetPassword }) {
 
             <form onSubmit={submit}>
                 <div>
-                    <InputLabel htmlFor="private_key" value="Private Key" />
+                    <InputLabel htmlFor="public_key" value="Public Key" />
 
                     <TextInput
-                        id="private_key"
+                        id="public_key"
                         type="password"
-                        name="private_key"
-                        value={data.private_key}
+                        name="public_key"
+                        value={data.public_key}
                         className="mt-1 block w-full"
                         isFocused={true}
-                        onChange={(e) => setData('private_key', e.target.value)}
+                        onChange={(e) => setData('public_key', e.target.value)}
                     />
 
-                    <InputError message={errors.private_key} className="mt-2" />
+                    <InputError message={errors.public_key} className="mt-2" />
                 </div>
 
                 <div className="mt-4 flex items-center justify-end">

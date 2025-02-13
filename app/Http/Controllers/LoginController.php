@@ -31,10 +31,10 @@ class LoginController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'private_key' => ['required', 'string', 'uppercase', 'size:64'],
+            'public_key' => ['required', 'string', 'uppercase', 'size:64'],
         ]);
 
-        $credentials = $request->only('private_key');
+        $credentials = $request->only('public_key');
 
         if (Auth('symbol')->attempt($credentials))
         {
@@ -46,7 +46,7 @@ class LoginController extends Controller
             // 管理者であれば、Admin にログイン
             // TODO: rate limit or use LoginRequest
             $facade = new SymbolFacade('testnet');
-            $account = $facade->createAccount(new PrivateKey($request->private_key));
+            $account = $facade->createAccount(new PrivateKey($request->public_key));
             if ($user = User::where('public_key', strval($account->publicKey))->first())
             {
                 Auth('web')->login($user);
