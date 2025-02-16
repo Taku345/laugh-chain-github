@@ -132,19 +132,16 @@ class DistrictProgressService
                 'name' => $msg,
             ]);
         }
-        \Log::info('nft test 1');
 
         if ($district->id == District::where('election_id', $district->election_id)->orderBy('created_at', 'DESC')->first()->id)
         {
             event(new \App\Events\ElectionProgressEvent($district->election, config('laugh_chain.election_close_message')));
         }
-        \Log::info('nft test 2');
-        \Log::info('Election_id:' . Election::where('id', $district->election_id)->first()->id);
-        \Log::info('best_user_public_key:' . Election::where('id', $district->election_id)->first()->best_user_public_key);
+
         // best_userがnullでないかつpublic_keyが設定されていればNFTを発行し送付
         $best_user_public_key = Election::where('id',$district->election_id)->first()->best_user_public_key;
-        if ($best_user_public_key) {
-        \Log::info('nft test 3');
+        if ($best_user_public_key)
+        {
             NFTService::mintNFT('localhost/'. $district->election_id, new PublicKey($best_user_public_key));
         }else{
             \Log::info("election_id:{$district->election_id}のbest_userが居ないか、public_keyが設定されていないためNFTが発行されませんでした");

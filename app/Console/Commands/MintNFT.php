@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use SymbolSdk\Symbol\Models\PublicKey;
 use App\Services\Symbol\NFTService;
+use Illuminate\Support\Facades\Log;
 
 class MintNFT extends Command
 {
@@ -27,6 +28,8 @@ class MintNFT extends Command
      */
     public function handle()
     {
-        NFTService::mintNFT("localhost/test1", new PublicKey(config('test_user_keys.test_user_1.public_key')));
+        $txHash = NFTService::mintNFT("localhost/test1", new PublicKey(config('test_user_keys.test_user_1.public_key')));
+        Log::info("mintNFT txHash: " . $txHash);
+        dump("mintNFT txHash: " . $txHash);
     }
 }
