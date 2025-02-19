@@ -142,9 +142,10 @@ class DistrictProgressService
         $best_user_public_key = Election::where('id',$district->election_id)->first()->best_user_public_key;
         if ($best_user_public_key)
         {
-            NFTService::mintNFT('localhost/'. $district->election_id, new PublicKey($best_user_public_key));
+            // TODO: 本番環境のURLに自動で切り替わるようにconfigを設定
+            NFTService::mintNFT(config('app.url') . '/election/' . $district->election_id, new PublicKey($best_user_public_key));
         }else{
-            \Log::info("election_id:{$district->election_id}のbest_userが居ないか、public_keyが設定されていないためNFTが発行されませんでした");
+            \Log::info("election_id:{$district->election_id}のbest_userが居ないか、そのpublic_keyが設定されていないためNFTが発行されませんでした");
         }
     }
 }

@@ -28,8 +28,9 @@ class MintNFT extends Command
      */
     public function handle()
     {
-        $txHash = NFTService::mintNFT("localhost/test1", new PublicKey(config('test_user_keys.test_user_1.public_key')));
+        $txHash = NFTService::mintNFT(config('app.url') . '/election/' , new PublicKey(config('test_user_keys.test_user_1.public_key')));
         Log::info("mintNFT txHash: " . $txHash);
         dump("mintNFT txHash: " . $txHash);
+        dump(config('app.url'));
     }
 }

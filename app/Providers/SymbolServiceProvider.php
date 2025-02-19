@@ -36,8 +36,7 @@ class SymbolServiceProvider extends ServiceProvider
                 'nodeRoutesApi' => new NodeRoutesApi($client, $config),
                 'networkRoutesApi' => new NetworkRoutesApi($client, $config),
                 'metadataRoutesApi' => new MetadataRoutesApi($client, $config),
-                'officialAccount' => $facade->createAccount(new PrivateKey(env('OFFICIAL_ACCOUNT_PRIVATE_KEY'))),
-                'testUserAccount' => $facade->createAccount(new PrivateKey(env('TEST_USER_ACCOUNT_PRIVATE_KEY'))),
+                'officialAccount' => $facade->createAccount(new PrivateKey(config('symbol_keys.official_account.private_key'))),
             ];
         });
     }

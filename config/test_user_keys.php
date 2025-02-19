@@ -2,7 +2,7 @@
 <?php
 
 return [
-    'test_admin' => [
+    'test_admin' => [ //小長井さんが使用していた公式アカウント
         'private_key' => '337E08A730622B79C901AFDE5E22258A8CCE088F7707BDAC0A5D96CB7333584A',
         'public_key' => 'F35EA4AB58D0CE466771367683FAE6EE889891C9A641574B57619F9538322A87',
     ],
