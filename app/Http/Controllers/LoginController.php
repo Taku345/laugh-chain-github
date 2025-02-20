@@ -44,16 +44,6 @@ class LoginController extends Controller
                 'address' => Auth('symbol')->user()->address,
             ]);
 
-            // 管理者であれば、Admin にログイン
-            // TODO: rate limit or use LoginRequest
-            $facade = new SymbolFacade('testnet');
-            $account = $facade->createPublicAccount(new PublicKey($credentials['public_key']));
-            if ($user = User::where('public_key', strval($account->publicKey))->first())
-            {
-                Auth('web')->login($user);
-                return redirect()->route('admin.dashboard');
-            }
-
             return redirect()->route('/');
         }
 
