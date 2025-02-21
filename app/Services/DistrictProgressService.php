@@ -48,6 +48,7 @@ class DistrictProgressService
             {
             case 'ran': // -> voting
                 // 立候補が1つもなければ終了する
+                // ! ここAI生成に切り替えた場合candidateの生成が遅れて即終了してしわまないか注意する
                 if ($district->candidate->count() < 1)
                 {
                     // 終了処理
@@ -138,11 +139,10 @@ class DistrictProgressService
             event(new \App\Events\ElectionProgressEvent($district->election, config('laugh_chain.election_close_message')));
         }
 
-        // best_userがnullでないかつpublic_keyが設定されていればNFTを発行し送付
+        // best_userがnullでないかつpublic_keyがVoteレコードにちゃんと入っていればNFTを発行し送付
         $best_user_public_key = Election::where('id',$district->election_id)->first()->best_user_public_key;
         if ($best_user_public_key)
         {
-            // TODO: 本番環境のURLに自動で切り替わるようにconfigを設定
             NFTService::mintNFT(config('app.url') . '/election/' . $district->election_id, new PublicKey($best_user_public_key));
         }else{
             \Log::info("election_id:{$district->election_id}のbest_userが居ないか、そのpublic_keyが設定されていないためNFTが発行されませんでした");
