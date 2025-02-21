@@ -6,7 +6,13 @@ use Inertia\Inertia;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\ElectionController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\LoginController;
 
+Route::get('/admin/login', function () {
+    return Inertia::render('Admin/Login');
+});
+
+Route::post('/admin/login', [LoginController::class, 'store'])->name('admin.login');
 
 Route::group(['middleware' => 'auth:web', 'prefix' => 'admin', 'as' => 'admin.'], function ()
 {
