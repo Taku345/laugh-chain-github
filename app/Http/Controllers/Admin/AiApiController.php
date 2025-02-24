@@ -57,4 +57,10 @@ class AiApiController extends Controller
     {
         return $this->openAiService->generate_choices();
     }
+
+    // オチ生成
+    public function generate_climax()
+    {
+        return $this->openAiService->generate_climax();
+    }
 }

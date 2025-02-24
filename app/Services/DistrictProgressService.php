@@ -94,7 +94,7 @@ class DistrictProgressService
                 }
 
                 // 選挙が終了していなければ、次の district を作成
-                GenerateService::newDistrict($district->election);
+                GenerateService::newDistrict($district->election, false);
                 event(new \App\Events\ElectionProgressEvent($district->election, config('laugh_chain.district.message.'.$current)));
 
                 break;
@@ -116,14 +116,7 @@ class DistrictProgressService
 
         if ($append_keyward)
         {
-            $new_district = District::create([
-                'election_id' => $district->election->id,
-                'progress' => config('laugh_chain.district.progress.close'),
-            ]);
-            Candidate::create([
-                'district_id' => $new_district->id,
-                'name' => config('laugh_chain.close_keyward'),
-            ]);
+            GenerateService::newDistrict($district->election, true);
         }
 
         foreach (config('laugh_chain.close_sequesne') as $msg)

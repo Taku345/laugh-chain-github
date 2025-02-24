@@ -34,6 +34,7 @@ Route::group(['middleware' => 'auth:web', 'prefix' => 'admin', 'as' => 'admin.']
     Route::get('api/ai/generate_opening_lines', [AiApiController::class, 'generate_opening_lines'])->name('api.ai.generate_opening_lines');
     Route::get('api/ai/generate_scene', [AiApiController::class, 'generate_scene'])->name('api.ai.generate_scene');
     Route::get('api/ai/generate_choices', [AiApiController::class, 'generate_choices'])->name('api.ai.generate_choices');
+    Route::get('api/ai/generate_climax', [AiApiController::class, 'generate_climax'])->name('api.ai.generate_climax');
 });
 
 

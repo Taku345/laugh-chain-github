@@ -31,7 +31,7 @@ class ElectionProgressService
             ]);
         }
 
-        GenerateService::newDistrict($election);
+        GenerateService::newDistrict($election, false);
         event(new \App\Events\ElectionProgressEvent($election, config('laugh_chain.election_start_message')));
 
         return $election;
@@ -47,7 +47,7 @@ class ElectionProgressService
         {
             if (strtotime($election->scheduled_at) < now())
             {
-                GenerateService::newDistrict($election);
+                GenerateService::newDistrict($election, false);
                 event(new \App\Events\ElectionProgressEvent($district->election, config('laugh_chain.election_start_message')));
             }
         }

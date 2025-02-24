@@ -36,7 +36,7 @@ return [
     'election_start_message' => '選挙を開始しました。',
     'election_close_message' => '選挙が終了しました。',
 
-    'district_limit' => 5,
+    'district_limit' => 3,
 
     'openAi' => [
         'model' => 'gpt-4',
@@ -88,6 +88,18 @@ return [
                                 'format'    =>  '「choices」をKeyとして、valueに配列を持ち、その配列の中に生成した「選択肢(choices)」を格納してください。
                                                 フォーマットのサンプル：{"choices": [xxx,yyy,zzz,...]}
                                                 生成された「選択肢(choices)」がxxxやyyyとなるイメージです。',
+                ],
+
+                'climax' =>  [
+                                'role'      =>  'あなた（AI）は、「テーマ（theme）」と「作成途中のネタ(history)」に基づいた漫才ネタの「クライマックス(climax)」を考える役割を担います。
+                                                最後のセリフの「もうええわ！」に自然とつながるように、面白いオチを考えてください。
+                                                ボケの発言とツッコミの発言を1セットと考え、3セット生成してください。',
+                                'count'     =>  '個の「クライマックス(climax)」を生成してください。',
+                                'context'   =>  '考慮して欲しい「テーマ（theme）」と「作成途中のネタ(history)」は、',
+                                'format'    =>  '「climax」をKeyとして、valueに配列を持ち、その配列の中に生成した「クライマックス(climax)」を格納してください。
+                                                フォーマットのサンプル：{"climax": [xxx,yyy,zzz,...]}
+                                                roleやcontentの記述は不要です。
+                                                contentのvalueのみをxxxやyyyなどに格納するイメージです。',
                 ],
             ],
         ],

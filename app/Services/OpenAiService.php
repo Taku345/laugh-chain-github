@@ -96,6 +96,24 @@ class openAiService
                                     config('laugh_chain.openAi.prompt.generate.choices.format')
                                 );
     }
+
+    public function generate_climax($theme, $history)
+    {
+        $jsonData = json_encode([
+            'theme' => $theme,
+            'history' => $history,
+        ]);
+
+        $num = '1';
+        return $this->sendOpenAi(
+                                    config('laugh_chain.openAi.prompt.description') .
+                                    config('laugh_chain.openAi.prompt.dataFormat') .
+                                    config('laugh_chain.openAi.prompt.generate.climax.role') .
+                                    $num . config('laugh_chain.openAi.prompt.generate.climax.count') .
+                                    config('laugh_chain.openAi.prompt.generate.climax.count') . $jsonData .
+                                    config('laugh_chain.openAi.prompt.generate.climax.format')
+                                );
+    }
     
 
     private function sendOpenAi($messageToAi)
