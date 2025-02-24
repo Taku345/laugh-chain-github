@@ -51,16 +51,16 @@ class SymbolAccountProvider extends ServiceProvider implements UserProvider
     {
         try
         {
+            // 公開鍵からアカウント情報を作成
             $facade = new SymbolFacade('testnet');
-            $account = $facade->createAccount(new PrivateKey($credentials['private_key']));
-    
+            $account = $facade->createPublicAccount(new PublicKey($credentials['public_key']));
+
             return new SymbolAccount([
                 'public_key' => strval($account->publicKey),
                 'address' => strval($account->address),
             ]);
-
         }
-        catch (\Exception $e)
+            catch (\Exception $e)
         {
             return null;
         }
@@ -70,10 +70,7 @@ class SymbolAccountProvider extends ServiceProvider implements UserProvider
     {
         try
         {
-            $facade = new SymbolFacade('testnet');
-            $account = $facade->createAccount(new PrivateKey($credentials['private_key']));
-
-            return $user->getAuthIdentifier() === strval($account->publicKey);
+            return $user->getAuthIdentifier() === $credentials['public_key'];
         }
         catch (\Exception $e)
         {

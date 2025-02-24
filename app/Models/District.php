@@ -28,4 +28,15 @@ class District extends Model
     {
         return $query->whereHas('election', function ($q) { $q->public();} );
     }
+
+    public function getWinnerCandidateAttribute(): ?Candidate
+    {
+        return $this->candidate->sortBy(function ($c) {
+            $sum = 0;
+            foreach($c->vote as $vote){
+                $sum += $vote->rate;
+            }
+            return $sum;
+        } )->last();
+    }
 }

@@ -10,5 +10,6 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote')->hourly();
 
 
-Schedule::command('app:district-progress')->everySecond();//->withoutOverlapping();
+Schedule::command('app:district-progress')->everySecond()->withoutOverlapping();
+Schedule::command('app:election-progress')->everyFiveSeconds()->withoutOverlapping();
 // Schedule::command('queue:work')->everySecond()->withoutOverlapping();

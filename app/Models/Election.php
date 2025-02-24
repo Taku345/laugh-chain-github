@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Collection;
+
 
 class Election extends Model
 {
@@ -99,7 +101,8 @@ class Election extends Model
             return 'private';
 
         if (
-            $this->scheduled_at && strtotime($this->scheduled_at) < now() ||
+            $this->scheduled_at &&
+            strtotime($this->scheduled_at) < strtotime(now()) ||
             $this->district->count() < 1
         )
             return 'before';
@@ -108,6 +111,28 @@ class Election extends Model
             return 'open';
 
         return 'close';
+    }
+
+    /**
+     * winner_candidateに対し最も連打したユーザーをbest_userとする
+     */
+    public function getBestUserPublicKeyAttribute()// User
+    {
+        // $district->Election_idに関する全districtを取得する
+        $districts = District::where('election_id', $this->id)->get();
+        $winner_candidate_ids = [];
+        foreach ($districts as $district) {
+            $winner_candidate_ids[] = $district->winner_candidate->id;
+        }
+        $public_key = Vote::whereIn('candidate_id', $winner_candidate_ids)
+            ->select('public_key')
+            ->selectRaw('SUM(rate) as total_rate')
+            ->groupBy('public_key')
+            ->orderByDesc('total_rate')
+            ->get();
+        // dd($public_key);
+
+        return $public_key ? $public_key->first()->public_key : null;
     }
 
 }

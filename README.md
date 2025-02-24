@@ -76,5 +76,15 @@ Laravel Reverb を使うか pusher を使うかで変わってきます。
 ./vendor/bin/sail artisan reverb:start
 ```
 
-
+## ログイン
+### 一般ログイン
+以下のURLから公開鍵でログイン。管理者の公開鍵でも、管理画面へのログインはできません。
+```
+/login
+```
+### 管理者ログイン
+以下のURLから秘密鍵でログイン。Usersテーブルに存在するユーザー以外ログイン不可
+```
+/admin/login
+```
 
