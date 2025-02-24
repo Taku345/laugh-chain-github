@@ -40,7 +40,8 @@ class GenerateCandidateContentsJob implements ShouldQueue
             if ($candidate = $_district->candidate()->first())
             {
                 // TODO: 本当は winner を取る
-                $history .= $candidate->name."\n";
+                // $history .= $candidate->name."\n";
+                $history .= $_district->winner_candidate->name."\n";
             }
         }
         
