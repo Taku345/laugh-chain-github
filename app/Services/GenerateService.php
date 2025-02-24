@@ -6,6 +6,7 @@ use App\Models\District;
 use App\Models\Candidate;
 
 use App\Jobs\GenerateDistrictContentsJob;
+use App\Jobs\GenerateCandidateContentsJob;
 
 class GenerateService
 {
@@ -15,13 +16,15 @@ class GenerateService
         $new_district = District::create([
             'election_id' => $election->id,
         ]);
-
+        \Log::info('District created: '.$new_district->id);
 
 
         // TODO: 作成した district に対して AI で生成する job を投げておく
         // TODO: AI と JOB 化
 
         GenerateDistrictContentsJob::dispatch($new_district);
+
+        GenerateCandidateContentsJob::dispatch($new_district);
 
         //  static::generateCandidateAndCreate($new_district);
 

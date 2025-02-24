@@ -8,7 +8,7 @@ use App\Models\District;
 use App\Models\Candidate;
 use App\Services\OpenAiService;
 
-class GenerateDistrictContentsJob implements ShouldQueue
+class GenerateCandidateContentsJob implements ShouldQueue
 {
     use Queueable;
 
@@ -27,7 +27,7 @@ class GenerateDistrictContentsJob implements ShouldQueue
      */
     public function handle(OpenAiService $openAiService): void
     {
-        \Log::info('GenerateDistrictContentsJob start');
+        \Log::info('GenerateCandidateContentsJob start');
         $history = '';
 
         foreach ($this->district->election->district as $_district)
@@ -43,16 +43,29 @@ class GenerateDistrictContentsJob implements ShouldQueue
                 $history .= $candidate->name."\n";
             }
         }
-
+        
         // \Log::info('history: '.$history);
 
-        $scene = $openAiService->generate_scene(
-            $this->district->election->name,
+        $choices = $openAiService->generate_choices(
+            $this->district->election->theme,
             $history
         );
-        // \Log::info('scene: '.$scene);
+        // \Log::info('choices: '.$choices);
 
-        $this->district->scene = $scene;
-        $this->district->save();
+        // JSON文字列を連想配列に変換
+        $data = json_decode($choices, true);
+
+        // 配列を取り出す
+        $choices = $data['choices'];
+        
+
+        foreach ($choices as $candidate)
+        {
+            Candidate::create([
+                'district_id' => $this->district->id,
+                'name' => $candidate,
+            ]);
+        }
+
     }
 }

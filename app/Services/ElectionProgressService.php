@@ -26,7 +26,7 @@ class ElectionProgressService
         {
             District::create([
                 'election_id' => $election->id,
-                'name' => $election->opening_line,
+                'scene' => $election->opening_line,
                 'progress' => config('laugh_chain.district.progress.close'),
             ]);
         }

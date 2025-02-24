@@ -18,8 +18,8 @@ const TITLES = [
 const DistrictComponent = ({
     district,
     laugh_chain_config,
-    district_progress
-
+    district_progress,
+    scene
 }) =>
 {
     switch (district_progress)
@@ -45,6 +45,7 @@ const District = ({
     const laugh_chain_config: any = usePage().props.laugh_chain_config
     const district_progress = forceClose ? laugh_chain_config.district.progress.close : district.progress
     const [ remainingMs, setRemainingMs ] = useState(0)
+    const scene = district.scene ? district.scene : ''
 
 
 
@@ -77,18 +78,36 @@ const District = ({
         return () => clearInterval(timer)
     }, [district_progress])
 
+    // sceneをJSONとしてパース
+    let parsedScene = [];
+    let isParsed = true;
+    try {
+        parsedScene = JSON.parse(scene).scene;
+    } catch (error) {
+        console.error("Failed to parse scene JSON:", error);
+        isParsed = false;
+    }
 
     return <div className="District  my-10 border rounded p-2">
         <h2>
             <span className="num">{index + 1}</span>:
             {TITLES[district_progress]}
         </h2>
-        {(remainingMs /
-        (laugh_chain_config.district.sec[Object.keys(laugh_chain_config.district.progress).find((key) => laugh_chain_config.district.progress[key] === district_progress )] * 1000))}
+        <h2>
+            <br />
+            {isParsed ? (
+                <span>{parsedScene.map((line, idx) => <p key={idx}>{line}</p>)}</span>
+            ) : (
+                <span>{scene}</span>
+            )}
+        </h2>
+        {/* {(remainingMs /
+        (laugh_chain_config.district.sec[Object.keys(laugh_chain_config.district.progress).find((key) => laugh_chain_config.district.progress[key] === district_progress )] * 1000))} */}
         <DistrictComponent
             district={district}
             laugh_chain_config={laugh_chain_config}
             district_progress={district_progress}
+            scene={district.scene}
         />
     </div>
 }

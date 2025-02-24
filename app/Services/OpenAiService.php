@@ -86,7 +86,7 @@ class openAiService
             'history' => $history,
         ]);
 
-        $num = '5';
+        $num = '3';
         return $this->sendOpenAi(
                                     config('laugh_chain.openAi.prompt.description') .
                                     config('laugh_chain.openAi.prompt.dataFormat') .

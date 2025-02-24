@@ -33,10 +33,10 @@ return [
         'どうも、ありがとうございました〜'
     ],
 
-    'election_start_message' => '選挙が終了しました。',
+    'election_start_message' => '選挙を開始しました。',
     'election_close_message' => '選挙が終了しました。',
 
-    'district_limit' => 10,
+    'district_limit' => 5,
 
     'openAi' => [
         'model' => 'gpt-4',
