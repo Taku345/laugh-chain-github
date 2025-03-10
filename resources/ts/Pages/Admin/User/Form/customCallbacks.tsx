@@ -1,5 +1,5 @@
 import { FieldInputFormProps } from "blu/Components/types/Field"
-import * as terminal_constants from "../../Terminal/constants"
+import * as terminal_constants from "../constants"
 import IndexChoiceForm from "@/Components/Reference/IndexChoiceForm"
 
 declare var route
