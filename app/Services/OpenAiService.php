@@ -26,13 +26,18 @@ class openAiService
     public function generate_themes()
     {
         $num = '3';
-        return $this->sendOpenAi(
+        $themes =  $this->sendOpenAi(
                                     config('laugh_chain.openAi.prompt.description') .
                                     config('laugh_chain.openAi.prompt.dataFormat') .
                                     config('laugh_chain.openAi.prompt.generate.themes.role') .
                                     $num . config('laugh_chain.openAi.prompt.generate.themes.count') .
                                     config('laugh_chain.openAi.prompt.generate.themes.format')
                                 );
+
+        preg_match_all('/\{.*?\}/s', $themes, $matches);
+
+        // JSON文字列を連想配列に変換
+        return json_decode($matches[0][0], true);
     }
 
     public function generate_opening_line($theme)
@@ -44,7 +49,7 @@ class openAiService
     public function generate_opening_lines($theme)
     {
         $num = '3';
-        return $this->sendOpenAi(
+        $openingLines = $this->sendOpenAi(
                                     config('laugh_chain.openAi.prompt.description') .
                                     config('laugh_chain.openAi.prompt.dataFormat') .
                                     config('laugh_chain.openAi.prompt.generate.opening_lines.role') .
@@ -52,6 +57,13 @@ class openAiService
                                     config('laugh_chain.openAi.prompt.generate.opening_lines.count') . $theme .
                                     config('laugh_chain.openAi.prompt.generate.opening_lines.format')
                                 );
+
+        
+        preg_match_all('/\{.*?\}/s', $openingLines, $matches);
+
+        // JSON文字列を連想配列に変換
+        return json_decode($matches[0][0], true);
+
     }
 
     public function generate_scene($theme, $history)

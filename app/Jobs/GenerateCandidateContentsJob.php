@@ -34,7 +34,18 @@ class GenerateCandidateContentsJob implements ShouldQueue
         {
             if ($_district->scene)
             {
-                $history .= $_district->scene."\n";
+                $scene = $_district->scene;
+                if (strpos($scene, '{') !== false && strpos($scene, '}') !== false) {
+                    $data = json_decode($_district->scene, true);
+                    $scenes = $data['scene'];
+                    foreach ($scenes as $scene)
+                    {
+                        \Log::info($scene);
+                        $history .= $scene."\n";
+                    }
+                }else{
+                    $history .= $scene."\n";
+                }
             }
 
             if ($candidate = $_district->candidate()->first())
@@ -51,10 +62,13 @@ class GenerateCandidateContentsJob implements ShouldQueue
             $this->district->election->theme,
             $history
         );
-        // \Log::info('choices: '.$choices);
+        
+
+        preg_match_all('/\{.*?\}/s', $choices, $matches);
+
 
         // JSON文字列を連想配列に変換
-        $data = json_decode($choices, true);
+        $data = json_decode($matches[0][0], true);
 
         // 配列を取り出す
         $choices = $data['choices'];

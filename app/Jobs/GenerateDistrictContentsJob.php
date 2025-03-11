@@ -34,7 +34,18 @@ class GenerateDistrictContentsJob implements ShouldQueue
         {
             if ($_district->scene)
             {
-                $history .= $_district->scene."\n";
+                $scene = $_district->scene;
+                if (strpos($scene, '{') !== false && strpos($scene, '}') !== false) {
+                    $data = json_decode($_district->scene, true);
+                    $scenes = $data['scene'];
+                    foreach ($scenes as $scene)
+                    {
+                        $history .= $scene."\n";
+                    }
+                }else{
+                    $history .= $scene."\n";
+                }
+                
             }
 
             if ($candidate = $_district->candidate()->first())
