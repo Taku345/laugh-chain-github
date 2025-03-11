@@ -65,19 +65,23 @@ return [
                                 'count'     =>  '個の「一言目(opening_line)」を生成してください。',
                                 'context'   =>  '考慮して欲しい「テーマ（theme）」は、',
                                 'format'    =>  '「opening_lines」をKeyとして、valueに配列を持ち、その配列の中に生成した「一言目(opening_line)」を格納してください。
-                                                フォーマットのサンプル：{"opening_line": [xxx,yyy,zzz,...]}
+                                                必ず次のフォーマット例に従ってください。
+                                                例：{"scene": [xxx,yyy,zzz,...]}
                                                 それぞれ生成された「一言目(opening_line)」がxxxやyyyとなるイメージです。',
                 ],
 
                 'scene' =>  [
                                 'role'      =>  'あなた（AI）は、
                                                 「テーマ（theme）」と「作成途中のネタ(history)」に基づいた漫才ネタの分岐点までのワン「シーン(scene)」を考える役割を担います。
+                                                「作成途中のネタ(history)」の直前のセリフと自然につながるように、面白いボケとツッコミを考えてください。
                                                 ボケの発言とツッコミの発言を1セットと考え、3セット生成してください。',
                                 'count'     =>  '個の「シーン(scene)」を生成してください。',
                                 'context'   =>  '考慮して欲しい「テーマ（theme）」と「作成途中のネタ(history)」は、',
                                 'format'    =>  '「scene」をKeyとして、valueに配列を持ち、その配列の中に生成した「シーン(scene)」を格納してください。
-                                                フォーマットのサンプル：{"scene": [xxx,yyy,zzz,...]}
-                                                roleやcontentの記述は不要です。
+                                                必ず次のフォーマット例に従ってください。
+                                                例：{"scene": [xxx,yyy,zzz,...]}
+                                                []の中は、ボケとツッコミのセリフだけにしてください。
+                                                roleやcontent、ボケ、ツッコミの記述は不要です。
                                                 contentのvalueのみをxxxやyyyなどに格納するイメージです。',
                 ],
 
