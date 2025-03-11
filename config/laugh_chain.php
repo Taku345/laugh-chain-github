@@ -39,7 +39,7 @@ return [
     'district_limit' => 3,
 
     'openAi' => [
-        'model' => 'gpt-4',
+        'model' => 'gpt-4o-mini',
         'prompt' => [
             'description'   =>      'ラフチェーンは、AIが漫才のネタを生成し、
                                     観客がストーリーの分岐点で、分岐の選択肢を投票によって決定し、
