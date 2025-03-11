@@ -122,7 +122,8 @@ class Election extends Model
         $districts = District::where('election_id', $this->id)->get();
         $winner_candidate_ids = [];
         foreach ($districts as $district) {
-            $winner_candidate_ids[] = $district->winner_candidate->id;
+
+            $winner_candidate_ids[] = $district->winner_candidate ? $district->winner_candidate->id : null;
         }
         $public_key = Vote::whereIn('candidate_id', $winner_candidate_ids)
             ->select('public_key')
