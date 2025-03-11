@@ -55,12 +55,12 @@ class DistrictProgressService
             case 'ran': // -> voting
                 // 立候補が1つもなければ終了する
                 // ! ここAI生成に切り替えた場合candidateの生成が遅れて即終了してしわまないか注意する
-                if ($district->candidate->count() < 1)
-                {
-                    // 終了処理
-                    static::close_election($district);
-                    break;
-                }
+                // if ($district->candidate->count() < 1)
+                // {
+                //     // 終了処理
+                //     static::close_election($district);
+                //     break;
+                // }
                 \Log::info('ran switch: '.$next_progress);
 
                 $district->progress = $next_progress;
