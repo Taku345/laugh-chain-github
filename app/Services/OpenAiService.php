@@ -54,7 +54,7 @@ class openAiService
                                     config('laugh_chain.openAi.prompt.dataFormat') .
                                     config('laugh_chain.openAi.prompt.generate.opening_lines.role') .
                                     $num . config('laugh_chain.openAi.prompt.generate.opening_lines.count') .
-                                    config('laugh_chain.openAi.prompt.generate.opening_lines.count') . $theme .
+                                    config('laugh_chain.openAi.prompt.generate.opening_lines.context') . $theme .
                                     config('laugh_chain.openAi.prompt.generate.opening_lines.format')
                                 );
 
@@ -78,7 +78,7 @@ class openAiService
         $jsonData = json_encode([
             'theme' => $theme,
             'history' => $history,
-        ]);
+        ], JSON_UNESCAPED_UNICODE);
 
         $num = '1';
         return $this->sendOpenAi(
@@ -86,7 +86,7 @@ class openAiService
                                     config('laugh_chain.openAi.prompt.dataFormat') .
                                     config('laugh_chain.openAi.prompt.generate.scene.role') .
                                     $num . config('laugh_chain.openAi.prompt.generate.scene.count') .
-                                    config('laugh_chain.openAi.prompt.generate.scene.count') . $jsonData .
+                                    config('laugh_chain.openAi.prompt.generate.scene.context') . $jsonData .
                                     config('laugh_chain.openAi.prompt.generate.scene.format')
                                 );
     }
@@ -96,7 +96,7 @@ class openAiService
         $jsonData = json_encode([
             'theme' => $theme,
             'history' => $history,
-        ]);
+        ], JSON_UNESCAPED_UNICODE);
 
         $num = '3';
         return $this->sendOpenAi(
@@ -104,7 +104,7 @@ class openAiService
                                     config('laugh_chain.openAi.prompt.dataFormat') .
                                     config('laugh_chain.openAi.prompt.generate.choices.role') .
                                     $num . config('laugh_chain.openAi.prompt.generate.choices.count') .
-                                    config('laugh_chain.openAi.prompt.generate.choices.count') . $jsonData .
+                                    config('laugh_chain.openAi.prompt.generate.choices.context') . $jsonData .
                                     config('laugh_chain.openAi.prompt.generate.choices.format')
                                 );
     }
@@ -114,7 +114,7 @@ class openAiService
         $jsonData = json_encode([
             'theme' => $theme,
             'history' => $history,
-        ]);
+        ], JSON_UNESCAPED_UNICODE);
 
         $num = '1';
         return $this->sendOpenAi(
@@ -122,7 +122,7 @@ class openAiService
                                     config('laugh_chain.openAi.prompt.dataFormat') .
                                     config('laugh_chain.openAi.prompt.generate.climax.role') .
                                     $num . config('laugh_chain.openAi.prompt.generate.climax.count') .
-                                    config('laugh_chain.openAi.prompt.generate.climax.count') . $jsonData .
+                                    config('laugh_chain.openAi.prompt.generate.climax.context') . $jsonData .
                                     config('laugh_chain.openAi.prompt.generate.climax.format')
                                 );
     }
