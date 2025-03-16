@@ -79,13 +79,24 @@ const District = ({
     }, [district_progress])
 
     // sceneをJSONとしてパース
-    let parsedScene = [];
-    let isParsed = true;
+    let parsedScene = scene;
+    let isParsed = false;
+    // console.log('scene:', scene)
+
+    // コードブロックが含まれていれば、それを取り除く
+    if (scene.includes('```json')) {
+        // console.log('Trim')
+        parsedScene = scene.match(/```json([\s\S]+?)```/)[1].trim();
+    }
+
     try {
-        parsedScene = JSON.parse(scene).scene;
+        if (scene.includes('scene')) {
+            parsedScene = JSON.parse(parsedScene);
+            // console.log('parsedScene:', parsedScene)
+            isParsed = true;
+        }
     } catch (error) {
-        console.error("Failed to parse scene JSON:", error);
-        isParsed = false;
+        console.error('JSONのパースに失敗しました:', error);
     }
 
     return <div className="District  my-10 border rounded p-2">
@@ -96,9 +107,9 @@ const District = ({
         <h2>
             <br />
             {isParsed ? (
-                <span>{parsedScene.map((line, idx) => <p key={idx}>{line}</p>)}</span>
+                <span>{parsedScene.scene.map((line, idx) => (<p key={idx}>{line}</p>))}</span>
             ) : (
-                <span>{scene}</span>
+                <span>{parsedScene}</span>
             )}
         </h2>
         {/* {(remainingMs /
