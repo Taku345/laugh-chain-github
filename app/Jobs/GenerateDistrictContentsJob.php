@@ -59,10 +59,17 @@ class GenerateDistrictContentsJob implements ShouldQueue
 
         // \Log::info('D_history: '.$history);
 
-        $scene = $openAiService->generate_scene(
-            $this->district->election->name,
-            $history
-        );
+        if($this->district->progress != config('laugh_chain.district.progress.close')){
+            $scene = $openAiService->generate_scene(
+                $this->district->election->name,
+                $history
+            );
+        } else {
+            $scene = $openAiService->generate_climax(
+                $this->district->election->name,
+                $history
+            );
+        }
         // \Log::info('scene: '.$scene);
 
         $this->district->scene = $scene;

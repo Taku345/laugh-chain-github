@@ -124,14 +124,14 @@ class DistrictProgressService
 
         foreach (config('laugh_chain.close_sequesne') as $msg)
         {
-            $new_district = District::create([
-                'election_id' => $district->election->id,
-                'progress' => config('laugh_chain.district.progress.close'),
-            ]);
-            Candidate::create([
-                'district_id' => $new_district->id,
-                'name' => $msg,
-            ]);
+            // $new_district = District::create([
+            //     'election_id' => $district->election->id,
+            //     'progress' => config('laugh_chain.district.progress.close'),
+            // ]);
+            // Candidate::create([
+            //     'district_id' => $new_district->id,
+            //     'name' => $msg,
+            // ]);
         }
 
         // if ($district->id == District::where('election_id', $district->election_id)->orderBy('created_at', 'DESC')->first()->id)
