@@ -74,7 +74,8 @@ const customCallbacks = ({
                 <Input
                     {...props}
                 />
-                <button onClick={generate_theme} disabled={themeThinking}>AIにテーマを考えさせる</button>
+                {!themeThinking && (
+                <button onClick={generate_theme} disabled={themeThinking}>AIにテーマを考えさせる</button>)}
                 {themeThinking && (<>考え中...</>) || (
                 <ul>
                     {themes.map((theme) => (<li>
@@ -96,7 +97,8 @@ const customCallbacks = ({
                     {...props}
                 />
                 {(data.name && data.name.length) > 0 && (<>
-                    <button onClick={generate_opening_line} disabled={openingLineThinking}>AIに一行目を考えさせる</button>
+                    {!openingLineThinking && (
+                    <button onClick={generate_opening_line} disabled={openingLineThinking}>AIに一行目を考えさせる</button>)}
                     {openingLineThinking && (<>考え中...</>) || (
                     <ul>
                         {openingLines.map((openingLine) => (<li>
