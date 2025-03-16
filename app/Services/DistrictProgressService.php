@@ -34,13 +34,13 @@ class DistrictProgressService
 
         foreach ($districts as $district)
         {
-            \Log::info('Exec process: '. $current.' -> '.$next_progress_key.': '.$district->id);
-            \Log::info(array_search($current, array_keys(config('laugh_chain.district.progress'))));
-            \Log::info(array_keys(config('laugh_chain.district.progress')));
+            // \Log::info('Exec process: '. $current.' -> '.$next_progress_key.': '.$district->id);
+            // \Log::info(array_search($current, array_keys(config('laugh_chain.district.progress'))));
+            // \Log::info(array_keys(config('laugh_chain.district.progress')));
 
-            \Log::info($district->id);
-            \Log::info(District::where('election_id', $district->election_id)->get()->toArray());
-            \Log::info(District::where('election_id', $district->election_id)->orderBy('created_at', 'DESC')->first()->id);
+            // \Log::info($district->id);
+            // \Log::info(District::where('election_id', $district->election_id)->get()->toArray());
+            // \Log::info(District::where('election_id', $district->election_id)->orderBy('created_at', 'DESC')->first()->id);
 
             // 最後の district じゃない場合は、close にするだけ(デモデータに対応)
             if ($district->id != District::where('election_id', $district->election_id)->orderBy('id', 'DESC')->first()->id)
@@ -61,7 +61,7 @@ class DistrictProgressService
                 //     static::close_election($district);
                 //     break;
                 // }
-                \Log::info('ran switch: '.$next_progress);
+                // \Log::info('ran switch: '.$next_progress);
 
                 $district->progress = $next_progress;
                 $district->save();
@@ -104,7 +104,7 @@ class DistrictProgressService
             default:
                 $district->progress = $next_progress;
                 $district->save();
-                \Log::info('$district->progress: '.$district->progress);
+                // \Log::info('$district->progress: '.$district->progress);
 
                 event(new \App\Events\ElectionProgressEvent($district->election, config('laugh_chain.district.message.'.$current)));
                 break;

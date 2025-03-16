@@ -41,7 +41,7 @@ class AiApiController extends Controller
     {
         $theme = $request->input('theme');
 
-        \Log::info('theme: '.$theme);
+        // \Log::info('theme: '.$theme);
 
         return $this->openAiService->generate_opening_lines($theme);
     }

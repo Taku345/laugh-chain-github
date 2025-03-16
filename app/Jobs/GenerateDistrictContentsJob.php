@@ -27,7 +27,7 @@ class GenerateDistrictContentsJob implements ShouldQueue
      */
     public function handle(OpenAiService $openAiService): void
     {
-        \Log::info('GenerateDistrictContentsJob start');
+        // \Log::info('GenerateDistrictContentsJob start');
         $history = '';
 
         foreach ($this->district->election->district as $_district)
@@ -53,10 +53,11 @@ class GenerateDistrictContentsJob implements ShouldQueue
                 // TODO: 本当は winner を取る
                 // $history .= $candidate->name."\n";
                 $history .= $_district->winner_candidate->name."\n";
+                // \Log::info('D_winner: '.$_district->winner_candidate->name);
             }
         }
 
-        // \Log::info('history: '.$history);
+        // \Log::info('D_history: '.$history);
 
         $scene = $openAiService->generate_scene(
             $this->district->election->name,

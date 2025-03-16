@@ -27,7 +27,7 @@ class GenerateCandidateContentsJob implements ShouldQueue
      */
     public function handle(OpenAiService $openAiService): void
     {
-        \Log::info('GenerateCandidateContentsJob start');
+        // \Log::info('GenerateCandidateContentsJob start');
         $history = '';
 
         foreach ($this->district->election->district as $_district)
@@ -40,7 +40,7 @@ class GenerateCandidateContentsJob implements ShouldQueue
                     $scenes = $data['scene'];
                     foreach ($scenes as $scene)
                     {
-                        \Log::info($scene);
+                        // \Log::info($scene);
                         $history .= $scene."\n";
                     }
                 }else{
@@ -53,19 +53,24 @@ class GenerateCandidateContentsJob implements ShouldQueue
                 // TODO: 本当は winner を取る
                 // $history .= $candidate->name."\n";
                 $history .= $_district->winner_candidate->name."\n";
+                // \Log::info('C_winner: '.$_district->winner_candidate->name);
             }
         }
         
-        // \Log::info('history: '.$history);
+        // \Log::info('C_history: '.$history);
 
         $choices = $openAiService->generate_choices(
             $this->district->election->theme,
             $history
         );
+
+        // $choices = "{choices : ['choices1', 'choices2', 'choices3']}";
+        // \Log::info('choices: '.$choices);
         
 
         preg_match_all('/\{.*?\}/s', $choices, $matches);
 
+        // \Log::info('choices: '.$matches[0][0]);
 
         // JSON文字列を連想配列に変換
         $data = json_decode($matches[0][0], true);

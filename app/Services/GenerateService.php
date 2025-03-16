@@ -17,7 +17,7 @@ class GenerateService
             $new_district = District::create([
                 'election_id' => $election->id,
             ]);
-            \Log::info('District created: '.$new_district->id);
+            // \Log::info('District created: '.$new_district->id);
 
 
             // TODO: 作成した district に対して AI で生成する job を投げておく
@@ -35,7 +35,7 @@ class GenerateService
                 'election_id' => $election->id,
                 'progress' => config('laugh_chain.district.progress.close'),
             ]);
-            \Log::info('climax created: '.$new_district->id);
+            // \Log::info('climax created: '.$new_district->id);
 
             GenerateDistrictContentsJob::dispatch($new_district);
 

@@ -12,9 +12,9 @@ class VoteController extends Controller
     // POST
     public function __invoke(Candidate $candidate, Request $request)
     {
-        \Log::info($candidate->district->progress);
-        \Log::info(config('laugh_chain.distinct.progress.voting'));
-        \Log::info(config('laugh_chain.distinct.progress.voted'));
+        // \Log::info($candidate->district->progress);
+        // \Log::info(config('laugh_chain.distinct.progress.voting'));
+        // \Log::info(config('laugh_chain.distinct.progress.voted'));
         if (
             $candidate->district->progress != config('laugh_chain.district.progress.voting') &&
             $candidate->district->progress != config('laugh_chain.district.progress.voted')
