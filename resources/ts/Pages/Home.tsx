@@ -39,7 +39,7 @@ const Dashboard = ({
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                         <div className='p-8'>
                         {isLoading && (<>Loading...</>) || (<ul>
-                            {data.data.map((election) => (<li className="text-lg mb-4">
+                            {data.data.map((election) => (<li key={election.id} className="text-lg mb-4">
                                 <Link href={route('election', {election: election.id})} className="hover:underline">
                                     {election.name}
                                     <span className='ml-12 text-sm rounded bg-slate-300 px-4 py-1'>{election.status}</span>

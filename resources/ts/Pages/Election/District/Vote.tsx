@@ -57,6 +57,10 @@ const VoteButton = ({
         return () => clearTimeout(voteTimer)
     }, [ rate ])
 
+    // console.log('auth.account:', auth.account);
+    // console.log('district.progress:', district.progress);
+    // console.log('laugh_chain_config.district.progress.voting:', laugh_chain_config.district.progress.voting);
+
     return (<>
         「{candidate.name}」
 
@@ -85,7 +89,7 @@ const Vote = ({
 {
     return <>
         <ul className="text-sm flex flex-wrap">
-            {district.candidate.map((candidate) => (<div className=" border rounded p-4 px-6 my-2 ml-1">
+            {district.candidate.map((candidate) => (<div key={candidate.id} className=" border rounded p-4 px-6 my-2 ml-1">
                 <VoteButton
                     district={district}
                     candidate={candidate}

@@ -34,7 +34,7 @@ const Election = ({
         return data;
     });
 
-    console.log('data', data)
+    // console.log('data', data)
 
 
     return (
@@ -63,14 +63,14 @@ const Election = ({
     ))}
 </div>)}
 
-{isLoading && (<div>Loading....</div>) || (<div className="w-2/5 sticky border rounded p-2">
+{/* {isLoading && (<div>Loading....</div>) || (<div className="w-2/5 sticky border rounded p-2">
     {data.district.map((district, district_index)  => (<Fragment key={district.id}>
         {district_index}
         {district_index < (data.district.length - 1) && (
             <Process key={district.id} district={district} />
         )}
     </Fragment>))}
-</div>)}
+</div>)} */}
 
 
 
