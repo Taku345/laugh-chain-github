@@ -140,12 +140,12 @@ class DistrictProgressService
         // }
 
         // best_userがnullでないかつpublic_keyがVoteレコードにちゃんと入っていればNFTを発行し送付
-        // $best_user_public_key = Election::where('id',$district->election_id)->first()->best_user_public_key;
-        // if ($best_user_public_key)
-        // {
-        //     NFTService::mintNFT(config('app.url') . '/election/' . $district->election_id, new PublicKey($best_user_public_key));
-        // }else{
-        //     \Log::info("election_id:{$district->election_id}のbest_userが居ないか、そのpublic_keyが設定されていないためNFTが発行されませんでした");
-        // }
+        $best_user_public_key = Election::where('id',$district->election_id)->first()->best_user_public_key;
+        if ($best_user_public_key)
+        {
+            NFTService::mintNFT(config('app.url') . '/election/' . $district->election_id, new PublicKey($best_user_public_key));
+        }else{
+            \Log::info("election_id:{$district->election_id}のbest_userが居ないか、そのpublic_keyが設定されていないためNFTが発行されませんでした");
+        }
     }
 }
