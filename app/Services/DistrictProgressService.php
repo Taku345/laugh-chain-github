@@ -7,6 +7,7 @@ use App\Models\District;
 use App\Models\Candidate;
 use App\Services\Symbol\NFTService;
 use SymbolSdk\Symbol\Models\PublicKey;
+use Illuminate\Support\Facades\Log;
 
 class DistrictProgressService
 {
@@ -143,6 +144,7 @@ class DistrictProgressService
         $best_user_public_key = Election::where('id',$district->election_id)->first()->best_user_public_key;
         if ($best_user_public_key)
         {
+            Log::info('best_user_public_key: '.$best_user_public_key);
             NFTService::mintNFT(config('app.url') . '/election/' . $district->election_id, new PublicKey($best_user_public_key));
         }else{
             \Log::info("election_id:{$district->election_id}のbest_userが居ないか、そのpublic_keyが設定されていないためNFTが発行されませんでした");
